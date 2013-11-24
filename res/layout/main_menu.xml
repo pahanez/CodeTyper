@@ -4,28 +4,42 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_menu_background" >
 
-    <TextView
+   
+    <EditText
         android:id="@+id/main_menu_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/menu_title_margin_top"
         android:text="@string/menu_title"
         android:textColor="@color/typer_color_green"
-        android:textCursorDrawable="@drawable/ic_launcher"
+        android:background="@null"
+        android:textCursorDrawable="@drawable/title_cursor"
+        android:cursorVisible="true"
         android:textSize="@dimen/menu_title_text_size" />
+
+     <View android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/menu_title_margin_top"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        
+        />
 
     <Button
         android:id="@+id/menu_start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/menu_title_margin_top"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/main_menu_title"
-        android:text="@string/menu_start"
-        android:padding="20dp"
-        android:cursorVisible="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/menu_title_margin_top"
         android:background="@drawable/button_states"
-        android:textColor="@color/typer_color_green" />
+        android:padding="20dp"
+        android:text="@string/menu_start"
+        android:textColor="@color/typer_color_green" >
+        <requestFocus />
+        
+    </Button>
 
 </RelativeLayout>

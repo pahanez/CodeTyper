@@ -46,22 +46,22 @@ public class TyperFragment extends Fragment{
 			 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				mHackerViewHidden.dispatchTouchEvent(event);
+//				mHackerViewHidden.dispatchTouchEvent(event);
 				return false;
 			}
 		});
 		
-		mHackerViewHidden.setOnTouchListener(new OnTouchListener() {
+		/*mHackerViewHidden.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN){
 					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.toggleSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+					imm.toggleSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0); 
 				}
 				return false;
 			}
-		});
+		});*/
 
 		mHackerViewHidden.addTextChangedListener(new TextWatcher() {
 			
@@ -90,12 +90,11 @@ public class TyperFragment extends Fragment{
 			e.printStackTrace();
 		}
 		
-		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.toggleSoftInputFromWindow(mHackerViewHidden.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
 	}
 	private String getNextData(){
 		try {
 			mReader.read(chars); 
+			Log.e("p37td8" , "" + chars);
 			return new String(chars	, 0	, chars.length);
 		} catch (IOException e) {
 			e.printStackTrace();

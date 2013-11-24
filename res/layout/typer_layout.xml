@@ -14,11 +14,16 @@
         android:singleLine="false"
         android:textColor="@color/typer_color_green" />
 
-    <EditText
+    <com.pahanez.codetyper.CustomEditText
         android:id="@+id/hacker_et"
-        android:layout_width="0px"
-        android:layout_height="0px"
-        android:background="@drawable/main_menu_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="10000dp"
+        android:textColor="@android:color/transparent"
+        android:textIsSelectable="false"
+        android:singleLine="true"
+        
+        android:background="@android:color/transparent"
         android:gravity="top" />
 
 </FrameLayout>
