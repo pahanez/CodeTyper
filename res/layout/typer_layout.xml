@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/hacker_typer_tv"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_menu_background"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:singleLine="false"
+        android:textColor="@color/typer_color_green" />
+
+    <EditText
+        android:id="@+id/hacker_et"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:background="@drawable/main_menu_background"
+        android:gravity="top" />
+
+</FrameLayout>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<color name="typer_color_green">#3A855D</color>    
+<color name="typer_color_green">#3A855D</color>  
+<color name="typer_start_button_pressed">#7AEBB2</color>  
 </resources>

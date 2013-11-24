@@ -4,5 +4,7 @@
     <string name="app_name">CodeTyper</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+	<string name="menu_title">Code Typer</string>
+	<string name="menu_start">Start</string>
+    
 </resources>
