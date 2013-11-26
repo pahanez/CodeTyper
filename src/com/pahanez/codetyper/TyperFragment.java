@@ -67,7 +67,6 @@ public class TyperFragment extends Fragment{
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				Log.e("p37td8" , "onTextChanged");
 				mHackerView.setText(mHackerView.getText() + getNextData());
 			}
 			
@@ -94,7 +93,6 @@ public class TyperFragment extends Fragment{
 	private String getNextData(){
 		try {
 			mReader.read(chars); 
-			Log.e("p37td8" , "" + chars);
 			return new String(chars	, 0	, chars.length);
 		} catch (IOException e) {
 			e.printStackTrace();

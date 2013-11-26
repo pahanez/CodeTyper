@@ -22,7 +22,7 @@
         android:textColor="@android:color/transparent"
         android:textIsSelectable="false"
         android:singleLine="true"
-        
+        android:imeOptions="flagNoExtractUi"
         android:background="@android:color/transparent"
         android:gravity="top" />
 

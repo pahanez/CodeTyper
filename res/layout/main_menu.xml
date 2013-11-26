@@ -31,14 +31,14 @@
         android:id="@+id/menu_start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_menu_title"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/menu_title_margin_top"
         android:background="@drawable/button_states"
         android:padding="20dp"
         android:text="@string/menu_start"
         android:textColor="@color/typer_color_green" >
-        <requestFocus />
         
     </Button>
 

@@ -15,7 +15,8 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void initMenuFrament() {
-		getSupportFragmentManager().beginTransaction().add(R.id.inner_fragment, new MenuFragment()).commit();
+		if(getSupportFragmentManager().findFragmentById(R.id.inner_fragment) == null)
+			getSupportFragmentManager().beginTransaction().add(R.id.inner_fragment, new MenuFragment()).commit();
 	}
 
 	
