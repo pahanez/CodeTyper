@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,11 +21,13 @@ import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import static com.pahanez.codetyper.Constants.*;
 public class TyperFragment extends Fragment{
 	private EditText mHackerViewHidden;
 	private TextView mHackerView;
 	private BufferedReader mReader;
+	private int mSkip = 0;
 	private char [] chars = new char[10];
 
 	@Override
@@ -39,30 +42,41 @@ public class TyperFragment extends Fragment{
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		
 		mHackerView = (TextView) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 		
-		mHackerView.setOnTouchListener(new OnTouchListener() {
-			 
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-//				mHackerViewHidden.dispatchTouchEvent(event);
-				return false;
-			}
-		});
 		
-		/*mHackerViewHidden.setOnTouchListener(new OnTouchListener() {
-			
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
-					InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.toggleSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0); 
+		try {
+			mReader = new BufferedReader(new InputStreamReader(getActivity().getAssets().open("kexec.c")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		if(savedInstanceState != null){
+			if(savedInstanceState.containsKey(SAVE_OUR_DATA))
+				mHackerView.setText(savedInstanceState.getString(SAVE_OUR_DATA));
+			if(savedInstanceState.containsKey(SKIP_DATA))
+				try {
+					mReader.skip(mSkip);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				return false;
-			}
-		});*/
-
+		}else{
+			Toast toast = new Toast(getActivity().getApplicationContext());
+			toast.setDuration(Toast.LENGTH_LONG);
+			toast.setView(getLayoutInflater(savedInstanceState).inflate(R.layout.toast_text, null));
+			toast.setGravity(Gravity.TOP, 0, 100);
+			toast.show();
+			
+		}
+		
+		mHackerViewHidden.requestFocus();
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.showSoftInput(mHackerViewHidden, InputMethodManager.SHOW_IMPLICIT);
+		
 		mHackerViewHidden.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -81,22 +95,36 @@ public class TyperFragment extends Fragment{
 				//EMPTY
 			}
 		});
-		try {
-			
-			mReader = new BufferedReader(new InputStreamReader(getActivity().getAssets().open("kexec.c")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+		
+		
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.showSoftInput(mHackerViewHidden, InputMethodManager.HIDE_IMPLICIT_ONLY);
 	}
 	private String getNextData(){
 		try {
-			mReader.read(chars); 
+			mSkip = mReader.read(chars); 
 			return new String(chars	, 0	, chars.length);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if(mHackerView != null)
+			outState.putString(SAVE_OUR_DATA, mHackerView.getText().toString());
+		if (mSkip != 0)
+			outState.putInt(SKIP_DATA, mSkip);
+			
+	}
+	
+	
 }
