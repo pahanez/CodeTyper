@@ -69,7 +69,7 @@ public class TyperFragment extends Fragment{
 			toast.setDuration(Toast.LENGTH_LONG);
 			toast.setView(getLayoutInflater(savedInstanceState).inflate(R.layout.toast_text, null));
 			toast.setGravity(Gravity.TOP, 0, 100);
-			toast.show();
+			toast.show(); 
 			
 		}
 		
