@@ -54,7 +54,7 @@ public class TyperFragment extends Fragment{
 		}
 		
 		
-		if(savedInstanceState != null){
+		if(savedInstanceState != null){ 
 			if(savedInstanceState.containsKey(SAVE_OUR_DATA))
 				mHackerView.setText(savedInstanceState.getString(SAVE_OUR_DATA));
 			if(savedInstanceState.containsKey(SKIP_DATA))
