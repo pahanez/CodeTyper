@@ -10,14 +10,12 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.pahanez.codertyper.R;
 
 public class MenuFragment extends Fragment{
 	
 	private Button mStartButton;
-	private EditText mTitle;
 	
 	private Animation mButtonAnimation, mTitleAnimation;
 	
@@ -78,7 +76,6 @@ public class MenuFragment extends Fragment{
 		super.onViewCreated(view, savedInstanceState);
 		
 		mStartButton = (Button) view.findViewById(R.id.menu_start_button);
-		mTitle = (EditText) view.findViewById(R.id.main_menu_title);
 		mStartButton.setOnClickListener(new OnClickListener() {
 			
 			@Override

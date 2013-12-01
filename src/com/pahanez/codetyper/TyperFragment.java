@@ -1,28 +1,27 @@
 package com.pahanez.codetyper;
 
+import static com.pahanez.codetyper.Constants.SAVE_OUR_DATA;
+import static com.pahanez.codetyper.Constants.SKIP_DATA;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import com.pahanez.codertyper.R;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import static com.pahanez.codetyper.Constants.*;
+
+import com.pahanez.codertyper.R;
 public class TyperFragment extends Fragment{
 	private EditText mHackerViewHidden;
 	private TextView mHackerView;
