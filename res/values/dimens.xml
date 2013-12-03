@@ -5,6 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="menu_title_text_size">34dp</dimen>
     <dimen name="menu_title_margin_top">130dp</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
     
 
 </resources>

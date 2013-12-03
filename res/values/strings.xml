@@ -3,9 +3,11 @@
 
     <string name="app_name">CodeTyper</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="sliding_menu_title">Choose file</string>
 	<string name="menu_title">Code Typer ></string>
 	<string name="menu_start">Start</string>
 	<string name="start_typer_toast">Type as  fast as you can!</string>
+	<string name="sliding_menu_header">Choose source</string>
+	
     
 </resources>

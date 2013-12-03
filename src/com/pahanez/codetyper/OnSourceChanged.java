@@ -1,5 +1,7 @@
 package com.pahanez.codetyper;
 
-interface OnSourceChanged {
+public interface OnSourceChanged {
+
 	void sourceChanged(int id);
+
 }

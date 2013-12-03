@@ -1,57 +1,45 @@
 package com.pahanez.codetyper;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.pahanez.codertyper.R;
 
 public class MainActivity extends FragmentActivity {
 	
-private String[] mFileTitles = new String[]{"kexec.c" , "kexec.c" , "Activity.java"};
-	
-	private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-
+	private SlidingMenu mMenu;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.menu_layout);
+		setContentView(R.layout.activity_main);
 		
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-               R.layout.menu_item, mFileTitles));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		
+		initSlidingMenu();
 		initMenuFrament();
 	}
 	
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
-		
-	    @Override
-	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	    	Log.e("p37td8" , "k : " + parent);
-	    	Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.inner_fragment);
-	    	if ( fragment instanceof OnSourceChanged ){
-	    		((OnSourceChanged)fragment).sourceChanged(position);
-	    	}
-	    	mDrawerLayout.closeDrawers();
-	    }
+	private void initSlidingMenu() {
+        mMenu = new SlidingMenu(this);
+        mMenu.setMode(SlidingMenu.LEFT);
+        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mMenu.setFadeDegree(0.35f);
+        mMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        mMenu.setMenu(R.layout.menu);
+        
+        getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.menu_frame, new SlidingMenuFragment())
+        .commit();
 	}
 
 	private void initMenuFrament() {
 		if(getSupportFragmentManager().findFragmentById(R.id.inner_fragment) == null)
 			getSupportFragmentManager().beginTransaction().add(R.id.inner_fragment, new MenuFragment()).commit();
+	}
+	
+	public SlidingMenu getMenu(){
+		return mMenu;
 	}
 
 	
