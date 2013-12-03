@@ -27,11 +27,14 @@ public class SlidingMenuFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		
 
 		mList = (ListView) view.findViewById(R.id.menu_list);
+		mList.addHeaderView(getLayoutInflater(savedInstanceState).inflate(R.layout.sliding_menu_header, null));
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.menu_item, mFileTitles);
+				/*R.layout.menu_item*/android.R.layout.simple_list_item_single_choice, mFileTitles);
 		mList.setAdapter(adapter);
+		mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
 		mList.setOnItemClickListener(new OnItemClickListener() {
 
