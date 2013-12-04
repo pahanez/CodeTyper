@@ -1,8 +1,6 @@
 package com.pahanez.codetyper;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +55,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	@Override
 	public void onOpened() {
-		mList.setSelection(Settings.getInstance().getSourceId());
+		Log.e("p37td8" , "dk : " + Settings.getInstance().getSourceId());
+		mList.setItemChecked(Settings.getInstance().getSourceId(), true	);
 	}
 }
