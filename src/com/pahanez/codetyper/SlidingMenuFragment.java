@@ -2,7 +2,6 @@ package com.pahanez.codetyper;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		
 		
 		mList = (ListView) view.findViewById(R.id.menu_list);
-		Log.e("p37td8" , "list1 : " + mList + " this " + this.hashCode());
 		mList.addHeaderView(getLayoutInflater(savedInstanceState).inflate(R.layout.sliding_menu_header, null) , null , false);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.menu_item, mFileTitles);
@@ -55,7 +53,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	@Override
 	public void onOpened() {
-		Log.e("p37td8" , "dk : " + Settings.getInstance().getSourceId());
 		mList.setItemChecked(Settings.getInstance().getSourceId(), true	);
 	}
 }

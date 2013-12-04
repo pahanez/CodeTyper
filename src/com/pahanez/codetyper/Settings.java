@@ -2,14 +2,12 @@ package com.pahanez.codetyper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 class Settings {
 	private SharedPreferences sp;
 	private static Settings sInstance;
 	
 	private Settings(){
-		Log.e("p37td8" , " " + CodeTyperApplication.getAppContext());
 		sp = CodeTyperApplication.getAppContext().getSharedPreferences("codetyper", Context.MODE_PRIVATE);
 	}
 	
