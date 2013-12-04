@@ -1,7 +1,10 @@
 package com.pahanez.codetyper;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +13,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
 import com.pahanez.codertyper.R;
 
-public class SlidingMenuFragment extends Fragment {
+public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	private ListView mList;
 	private String[] mFileTitles = new String[] { "kexec.c", "kexec.c",
@@ -26,11 +30,11 @@ public class SlidingMenuFragment extends Fragment {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
 		
-
+		
 		mList = (ListView) view.findViewById(R.id.menu_list);
-		mList.addHeaderView(getLayoutInflater(savedInstanceState).inflate(R.layout.sliding_menu_header, null));
+		Log.e("p37td8" , "list1 : " + mList + " this " + this.hashCode());
+		mList.addHeaderView(getLayoutInflater(savedInstanceState).inflate(R.layout.sliding_menu_header, null) , null , false);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.menu_item, mFileTitles);
 		mList.setAdapter(adapter);
@@ -45,7 +49,14 @@ public class SlidingMenuFragment extends Fragment {
 				if (fragment instanceof OnSourceChanged)
 					((OnSourceChanged)fragment).sourceChanged(position);
 				((MainActivity)getActivity()).getMenu().toggle();
+				Settings.getInstance().setSourceId(position);
 			}
 		});
+		super.onViewCreated(view, savedInstanceState);
+	}
+
+	@Override
+	public void onOpened() {
+		mList.setSelection(Settings.getInstance().getSourceId());
 	}
 }

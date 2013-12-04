@@ -46,7 +46,7 @@ public class TyperFragment extends Fragment implements OnSourceChanged {
 
 		try {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
-					.getAssets().open("kexec.c")));
+					.getAssets().open(Settings.getInstance().getSourceName(Settings.getInstance().getSourceId()))));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

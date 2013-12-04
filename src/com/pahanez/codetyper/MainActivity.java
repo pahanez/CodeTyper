@@ -1,9 +1,11 @@
 package com.pahanez.codetyper;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
 import com.pahanez.codertyper.R;
 
 public class MainActivity extends FragmentActivity {
@@ -26,10 +28,12 @@ public class MainActivity extends FragmentActivity {
         mMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         mMenu.setMenu(R.layout.menu);
+        Fragment fragment = new SlidingMenuFragment();
+        mMenu.setOnOpenedListener((OnOpenedListener) fragment);
         
         getSupportFragmentManager()
         .beginTransaction()
-        .replace(R.id.menu_frame, new SlidingMenuFragment())
+        .replace(R.id.menu_frame, fragment)
         .commit();
 	}
 
