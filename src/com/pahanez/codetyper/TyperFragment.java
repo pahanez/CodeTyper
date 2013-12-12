@@ -128,25 +128,11 @@ public class TyperFragment extends Fragment implements OnSourceChanged {
 	}
 
 	@Override
-	public void sourceChanged(int id) {
+	public void sourceChanged(String id) {
 		try {
 			android.util.Log.e("p37td8", " 	" + id);
-			switch (id) {
-			case 1:
-				mReader = new BufferedReader(new InputStreamReader(
-						getActivity().getAssets().open("kexec.c")));
-				
-				break;
-			case 2:
-				mReader = new BufferedReader(new InputStreamReader(
-						getActivity().getAssets().open("kexec.c")));
-				break;
-			case 3:
-				mReader = new BufferedReader(new InputStreamReader(
-						getActivity().getAssets().open("Activity.java")));
-				break;
-
-			}
+			mReader = new BufferedReader(new InputStreamReader(
+					getActivity().getAssets().open(id)));
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Something went wrong.");
