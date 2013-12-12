@@ -16,7 +16,7 @@ class Settings {
 	}
 	
 	public int getSourceId(){
-		return sp.getInt(Constants.SOURCE_ID, 0);
+		return sp.getInt(Constants.SOURCE_ID, 1);
 	}
 	
 	public void setSourceId(int id){
@@ -25,11 +25,11 @@ class Settings {
 	
 	public String getSourceName(int id){
 		switch (id) {
-		case 0:
-			return "kexec.c";
 		case 1:
 			return "kexec.c";
 		case 2:
+			return "kexec.c";
+		case 3:
 			return "Activity.java";
 
 		default:

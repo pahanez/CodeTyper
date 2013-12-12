@@ -32,7 +32,14 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		mList = (ListView) view.findViewById(R.id.menu_list);
 		mList.addHeaderView(getLayoutInflater(savedInstanceState).inflate(R.layout.sliding_menu_header, null) , null , false);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.menu_item, mFileTitles);
+				R.layout.menu_item, mFileTitles){
+			@Override
+			public View getView(int position, View convertView,
+					ViewGroup parent) {
+				convertView.setTag(getItem(position));
+				return super.getView(position, convertView, parent);
+			}
+		};
 		mList.setAdapter(adapter);
 		mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
@@ -43,7 +50,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 					int position, long id) {
 				Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
 				if (fragment instanceof OnSourceChanged)
-					((OnSourceChanged)fragment).sourceChanged(position);
+					((OnSourceChanged)fragment).sourceChanged((String)view.getTag());
 				((MainActivity)getActivity()).getMenu().toggle();
 				Settings.getInstance().setSourceId(position);
 			}

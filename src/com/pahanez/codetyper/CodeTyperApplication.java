@@ -9,7 +9,7 @@ public class CodeTyperApplication extends Application{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		sInstance = this;
+		sInstance = this; 
 	}
 	
 	public static Context getAppContext(){
