@@ -3,14 +3,16 @@ package com.pahanez.codetyper;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
@@ -43,11 +45,29 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
-				if (fragment instanceof OnSourceChanged)
-					((OnSourceChanged)fragment).sourceChanged((String)view.getTag());
+				switch (mList.getAdapter().getItemViewType(position)) {
+				case TyperMenuAdaper.SOURCE_ITEM:
+					Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
+					if (fragment instanceof OnSourceChanged)
+						((OnSourceChanged)fragment).sourceChanged((String)view.getTag());
+					Settings.getInstance().setSourceId((String)view.getTag());
+					break;
+				case TyperMenuAdaper.SPEED_ITEM:
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((new ContextThemeWrapper(getActivity(), R.style.DTheme
+							)));
+					View layout = getLayoutInflater(getArguments()).inflate(R.layout.speed_dialog_layout, null);
+							alertDialogBuilder.setView(layout);
+							// create alert dialog
+							AlertDialog alertDialog = alertDialogBuilder.create();
+			 
+							// show it
+							alertDialog.show();
+					break;
+
+				default:
+					break;
+				}
 				((MainActivity)getActivity()).getMenu().toggle();
-				Settings.getInstance().setSourceId(position);
 			}
 		});
 		super.onViewCreated(view, savedInstanceState);
@@ -66,7 +86,12 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	@Override
 	public void onOpened() {
-		mList.setItemChecked(Settings.getInstance().getSourceId(), true	);
+		for (int i = 0; i < mList.getAdapter().getCount(); i++) {
+			if((((MenuItem)mList.getAdapter().getItem(i)).mName).equals(Settings.getInstance().getSourceId())){
+					mList.setItemChecked(i, true);
+					break;
+			}
+		}
 	}
 	
 	private static class MenuItem{
@@ -116,7 +141,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		public Object getItem(int position) {
 			return mItems.get(position);
 		}
-
+		
 		@Override
 		public long getItemId(int position) {
 			return position;

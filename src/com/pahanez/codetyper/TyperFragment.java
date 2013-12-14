@@ -45,7 +45,7 @@ public class TyperFragment extends Fragment implements OnSourceChanged {
 
 		try {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
-					.getAssets().open(Settings.getInstance().getSourceName(Settings.getInstance().getSourceId()))));
+					.getAssets().open(Settings.getInstance().getSourceId())));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
