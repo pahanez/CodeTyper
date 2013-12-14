@@ -151,8 +151,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int fullscreen=0x7f050003;
-        public static final int hacker_et=0x7f05000d;
-        public static final int hacker_typer_tv=0x7f05000c;
+        public static final int hacker_et=0x7f05000f;
+        public static final int hacker_typer_tv=0x7f05000e;
         public static final int inner_fragment=0x7f050005;
         public static final int left=0x7f050000;
         public static final int main_menu_title=0x7f050006;
@@ -163,7 +163,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int right=0x7f050001;
         public static final int selected_view=0x7f050004;
         public static final int separator_tv=0x7f05000a;
-        public static final int slidingmenumain=0x7f05000b;
+        public static final int slidingmenumain=0x7f05000d;
+        public static final int speed_tv=0x7f05000b;
+        public static final int speed_value_tv=0x7f05000c;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -172,9 +174,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_layout=0x7f030003;
         public static final int sliding_menu_item=0x7f030004;
         public static final int sliding_menu_separator=0x7f030005;
-        public static final int slidingmenumain=0x7f030006;
-        public static final int toast_text=0x7f030007;
-        public static final int typer_layout=0x7f030008;
+        public static final int sliding_menu_speed=0x7f030006;
+        public static final int slidingmenumain=0x7f030007;
+        public static final int toast_text=0x7f030008;
+        public static final int typer_layout=0x7f030009;
     }
     public static final class string {
         public static final int app_name=0x7f080000;
@@ -184,6 +187,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int sliding_menu_title=0x7f080002;
         public static final int start_typer_toast=0x7f080005;
         public static final int typer_settings=0x7f080001;
+        public static final int typer_speed=0x7f080007;
     }
     public static final class style {
         /** 

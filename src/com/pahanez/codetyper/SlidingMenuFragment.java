@@ -59,6 +59,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		for(String name : getResources().getStringArray(R.array.source_names))
 			menuList.add(new MenuItem.SourceItem(name));
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.typer_settings)));
+		menuList.add(new MenuItem.SpeedItem(getString(R.string.typer_speed)));
 		return menuList;
 			
 	}
@@ -85,9 +86,9 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			public SourceItem(String name) {
 				super(name);
 			}}
-		private static final class OptionItem extends MenuItem{
+		private static final class SpeedItem extends MenuItem{
 
-			public OptionItem(String name) {
+			public SpeedItem(String name) {
 				super(name);
 			}}
 		
@@ -103,7 +104,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		}
 		private static final int SEPARATOR_ITEM   	= 0;
 		private static final int SOURCE_ITEM 		= 1;
-		private static final int OPTION_ITEM 		= 2;
+		private static final int SPEED_ITEM 		= 2;
 		
 		
 		@Override
@@ -142,6 +143,11 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				((CheckedTextView)convertView.findViewById(android.R.id.text1)).setText(item.mName);
 				convertView.setTag(item.mName);
 				break;
+			case SPEED_ITEM:
+				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
+				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText("3");
+				convertView.setTag(item.mName);
+				break;
 			}
 			
 			return convertView;
@@ -150,7 +156,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		@Override
 		public int getItemViewType(int position) {
 			MenuItem item = mItems.get(position);
-			return item instanceof MenuItem.SeparatorItem ? SEPARATOR_ITEM : item instanceof MenuItem.SourceItem ? SOURCE_ITEM : OPTION_ITEM ;
+			return item instanceof MenuItem.SeparatorItem ? SEPARATOR_ITEM : item instanceof MenuItem.SourceItem ? SOURCE_ITEM : SPEED_ITEM ;
 		}
 		
 		

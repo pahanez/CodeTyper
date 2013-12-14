@@ -8,6 +8,7 @@
     <string name="menu_start">Start</string>
     <string name="start_typer_toast">Type as  fast as you can!</string>
     <string name="menu_choose_source">Choose source</string>
+    <string name="typer_speed">Speed</string>
 
     <string-array name="source_names">
         <item>kexec.c</item>

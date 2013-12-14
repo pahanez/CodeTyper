@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="@drawable/list_item_selector"
+    android:orientation="horizontal"
+    android:weightSum="4" >
+
+    <TextView
+        android:id="@+id/speed_tv"
+        android:layout_width="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/typer_color_green"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_weight="3" 
+        android:text="@string/typer_speed"
+        />
+
+    <TextView
+        android:id="@+id/speed_value_tv"
+        android:layout_width="0dp"
+        android:background="@drawable/button_background_unpressed"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/typer_color_green"
+        android:layout_margin="5dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
