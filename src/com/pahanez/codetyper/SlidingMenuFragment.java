@@ -98,6 +98,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			menuList.add(new MenuItem.SourceItem(name));
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.typer_settings)));
 		menuList.add(new MenuItem.SpeedItem(getString(R.string.typer_speed)));
+		menuList.add(new MenuItem.ColorItem(getString(R.string.typer_color)));
 		return menuList;
 			
 	}
@@ -134,6 +135,11 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			public SpeedItem(String name) {
 				super(name);
 			}}
+		private static final class ColorItem extends MenuItem{
+
+			public ColorItem(String name) {
+				super(name);
+			}}
 		
 	}
 	
@@ -148,6 +154,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		private static final int SEPARATOR_ITEM   	= 0;
 		private static final int SOURCE_ITEM 		= 1;
 		private static final int SPEED_ITEM 		= 2;
+		private static final int COLOR_ITEM 		= 3;
 		
 		
 		@Override
@@ -188,7 +195,14 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				break;
 			case SPEED_ITEM:
 				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
+				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
 				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText(String.valueOf(Settings.getInstance().getSpeed() + 1));
+				convertView.setTag(item.mName);
+				break;
+			case COLOR_ITEM:
+				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
+				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
+				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText("#" + "4a349f");
 				convertView.setTag(item.mName);
 				break;
 			}
@@ -199,13 +213,13 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		@Override
 		public int getItemViewType(int position) {
 			MenuItem item = mItems.get(position);
-			return item instanceof MenuItem.SeparatorItem ? SEPARATOR_ITEM : item instanceof MenuItem.SourceItem ? SOURCE_ITEM : SPEED_ITEM ;
+			return item instanceof MenuItem.SeparatorItem ? SEPARATOR_ITEM : item instanceof MenuItem.SourceItem ? SOURCE_ITEM : item instanceof MenuItem.SpeedItem?SPEED_ITEM : COLOR_ITEM ;
 		}
 		
 		
 		@Override
 		public int getViewTypeCount() {
-			return 3;
+			return 4;
 		}
 	} 
 }

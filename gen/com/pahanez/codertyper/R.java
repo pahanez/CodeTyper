@@ -198,6 +198,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ok=0x7f080008;
         public static final int sliding_menu_title=0x7f080002;
         public static final int start_typer_toast=0x7f080005;
+        public static final int typer_color=0x7f08000a;
         public static final int typer_settings=0x7f080001;
         public static final int typer_speed=0x7f080009;
     }

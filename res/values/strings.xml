@@ -11,6 +11,7 @@
     <string name="dialog_choose_speed">Choose typer speed</string>
     <string name="ok">Ok</string>
     <string name="typer_speed">Speed</string>
+    <string name="typer_color">Color</string>
 
     <string-array name="source_names">
         <item>kexec.c</item>
