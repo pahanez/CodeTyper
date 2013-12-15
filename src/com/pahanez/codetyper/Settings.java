@@ -37,4 +37,8 @@ class Settings {
 		sp.edit().putInt(Constants.SPEED, speed).commit();
 	}
 	
+	public int getColor(){
+		return sp.getInt(Constants.COLOR, CodeTyperApplication.getAppContext().getResources().getColor(R.color.typer_color_green));
+	}
+	
 }

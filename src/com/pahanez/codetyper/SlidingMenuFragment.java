@@ -2,11 +2,15 @@ package com.pahanez.codetyper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
+import yuku.ambilwarna.AmbilWarnaDialogFragment;
+import yuku.ambilwarna.OnAmbilWarnaListener;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +22,6 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
@@ -81,7 +84,31 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 						
 						d.show();
 					break;
+				case TyperMenuAdaper.COLOR_ITEM:
+				    // create OnAmbilWarnaListener instance
+				    // new color can be retrieved in onOk() event
+				    OnAmbilWarnaListener onAmbilWarnaListener = new OnAmbilWarnaListener() {
+				        @Override
+				        public void onCancel(AmbilWarnaDialogFragment dialogFragment) {
+				            Log.d("TAG", "onCancel()");
+				        }
 
+				        @Override
+				        public void onOk(AmbilWarnaDialogFragment dialogFragment, int color) {
+				            Log.d("TAG", "onOk(). Color: " + color);
+
+//				            MainActivity.this.mColor = color;
+				        }
+				    };
+
+				    // create new instance of AmbilWarnaDialogFragment and set OnAmbilWarnaListener listener to it
+				    // show dialog fragment with some tag value
+				    FragmentTransaction ft = getFragmentManager().beginTransaction();
+				    AmbilWarnaDialogFragment colorPickerFragment = AmbilWarnaDialogFragment.newInstance(Color.CYAN);
+				    colorPickerFragment.setOnAmbilWarnaListener(onAmbilWarnaListener);
+
+				    colorPickerFragment.show(ft, "color_picker_dialog");
+				    break;
 				default:
 					break;
 				}
