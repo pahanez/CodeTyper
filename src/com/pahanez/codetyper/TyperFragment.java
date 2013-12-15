@@ -13,19 +13,20 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pahanez.codertyper.R;
 
 public class TyperFragment extends Fragment implements ContentTyper {
 	private EditText mHackerViewHidden;
-	private TextView mHackerView;
+	private FocusedEditText mHackerView;
 	private BufferedReader mReader;
 	private int mSkip = 0;
 	private char[] chars;
@@ -40,7 +41,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		chars = new char[Settings.getInstance().getSpeed()+1];
-		mHackerView = (TextView) view.findViewById(R.id.hacker_typer_tv);
+		mHackerView = (FocusedEditText) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 
 		try {
@@ -76,13 +77,37 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(mHackerViewHidden, InputMethodManager.SHOW_IMPLICIT);
-
+		mHackerViewHidden.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if(event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_DEL){
+					android.util.Log.e("p37td8", "back_pressed");
+					return true;
+				}
+				return false;
+			}
+		});
 		mHackerViewHidden.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				mHackerView.setText(mHackerView.getText() + getNextData());
+				android.util.Log.e("p37td8", "start : " + start + " before : " + before + " count : " + count);
+				if(before == 0)
+					mHackerView.setText(mHackerView.getText() + getNextData());
+				else if(before == 1 && mHackerView.getText().length() != 0){
+					mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length));
+					mSkip -= chars.length;
+					try {
+						mReader.reset();
+						mReader.skip(mSkip);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				mHackerView.setSelection(mHackerView.getText().length());
+				android.util.Log.e("p37td8", "mSkip " + mSkip);
 			}
 
 			@Override

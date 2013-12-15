@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <com.pahanez.codetyper.FocusedEditText
-        android:id="@+id/hacker_typer_tv"
+        android:id="@+id/editText1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:cursorVisible="true"
         android:background="@drawable/main_menu_background"
         android:textColor="@color/typer_color_green"
         android:gravity="bottom"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-        android:textCursorDrawable="@drawable/typer_cursor"
+        android:textCursorDrawable="@drawable/title_cursor"
         android:ems="10" >
     </com.pahanez.codetyper.FocusedEditText>
-
-    <com.pahanez.codetyper.CustomEditText
-        android:id="@+id/hacker_et"
+    <EditText
+        android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="10000dp"
-        android:textColor="@android:color/transparent"
-        android:textIsSelectable="false"
-        android:singleLine="true"
-        android:imeOptions="flagNoExtractUi"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:cursorVisible="true"
         android:background="@android:color/transparent"
-        android:gravity="top" />
+        android:textColor="@android:color/white"
+        android:gravity="bottom"
+        android:textCursorDrawable="@drawable/ic_launcher"
+        android:ems="10" >
+    </EditText>
 
-</FrameLayout>
+</RelativeLayout>
