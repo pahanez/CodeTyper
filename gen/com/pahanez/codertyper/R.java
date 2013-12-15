@@ -12,7 +12,7 @@ public final class R {
         public static final int title_animation=0x7f040000;
     }
     public static final class array {
-        public static final int source_names=0x7f090000;
+        public static final int source_names=0x7f0a0000;
     }
     public static final class attr {
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
@@ -170,37 +170,36 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int title_cursor=0x7f020011;
     }
     public static final class id {
-        public static final int ambilwarna_btn_no=0x7f08000f;
-        public static final int ambilwarna_btn_yes=0x7f080010;
-        public static final int ambilwarna_cursor=0x7f080009;
-        public static final int ambilwarna_state=0x7f08000b;
-        public static final int ambilwarna_target=0x7f08000a;
-        public static final int ambilwarna_viewContainer=0x7f080006;
-        public static final int ambilwarna_viewHue=0x7f080008;
-        public static final int ambilwarna_viewSatBri=0x7f080007;
-        public static final int ambilwarna_warnaBaru=0x7f08000d;
-        public static final int ambilwarna_warnaLama=0x7f08000c;
-        public static final int btn_content=0x7f08000e;
-        public static final int fullscreen=0x7f080003;
-        public static final int hacker_et=0x7f08001e;
-        public static final int hacker_typer_tv=0x7f08001d;
-        public static final int inner_fragment=0x7f080005;
-        public static final int left=0x7f080000;
-        public static final int main_menu_title=0x7f080012;
-        public static final int margin=0x7f080002;
-        public static final int menu_frame=0x7f080014;
-        public static final int menu_list=0x7f080015;
-        public static final int menu_start_button=0x7f080013;
-        public static final int right=0x7f080001;
-        public static final int selected_view=0x7f080004;
-        public static final int separator_tv=0x7f080016;
-        public static final int slidingmenumain=0x7f080019;
-        public static final int speed_dialog_b=0x7f08001c;
-        public static final int speed_dialog_sb=0x7f08001b;
-        public static final int speed_tv=0x7f080017;
-        public static final int speed_value_tv=0x7f080018;
-        public static final int textView1=0x7f08001a;
-        public static final int view=0x7f080011;
+        public static final int ambilwarna_btn_no=0x7f09000f;
+        public static final int ambilwarna_btn_yes=0x7f090010;
+        public static final int ambilwarna_cursor=0x7f090009;
+        public static final int ambilwarna_state=0x7f09000b;
+        public static final int ambilwarna_target=0x7f09000a;
+        public static final int ambilwarna_viewContainer=0x7f090006;
+        public static final int ambilwarna_viewHue=0x7f090008;
+        public static final int ambilwarna_viewSatBri=0x7f090007;
+        public static final int ambilwarna_warnaBaru=0x7f09000d;
+        public static final int ambilwarna_warnaLama=0x7f09000c;
+        public static final int btn_content=0x7f09000e;
+        public static final int fullscreen=0x7f090003;
+        public static final int hacker_et=0x7f09001d;
+        public static final int hacker_typer_tv=0x7f09001c;
+        public static final int inner_fragment=0x7f090005;
+        public static final int left=0x7f090000;
+        public static final int main_menu_title=0x7f090011;
+        public static final int margin=0x7f090002;
+        public static final int menu_frame=0x7f090013;
+        public static final int menu_list=0x7f090014;
+        public static final int menu_start_button=0x7f090012;
+        public static final int right=0x7f090001;
+        public static final int selected_view=0x7f090004;
+        public static final int separator_tv=0x7f090015;
+        public static final int slidingmenumain=0x7f090018;
+        public static final int speed_dialog_b=0x7f09001b;
+        public static final int speed_dialog_sb=0x7f09001a;
+        public static final int speed_tv=0x7f090016;
+        public static final int speed_value_tv=0x7f090017;
+        public static final int textView1=0x7f090019;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -246,15 +245,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             backward-compatibility can go here.
         
          */
-        public static final int AppBaseTheme=0x7f0a0000;
+        public static final int AppBaseTheme=0x7f080001;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f0a0001;
+        public static final int AppTheme=0x7f080002;
         /**  Dialog theme. 
          */
-        public static final int CustomDialog=0x7f0a0002;
-        public static final int Theme_CustomDialog=0x7f0a0003;
+        public static final int CustomDialog=0x7f080003;
+        public static final int Theme_CustomDialog=0x7f080000;
     }
     public static final class styleable {
         /** Attributes that can be used with a SlidingMenu.

@@ -85,26 +85,23 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 						d.show();
 					break;
 				case TyperMenuAdaper.COLOR_ITEM:
-				    // create OnAmbilWarnaListener instance
-				    // new color can be retrieved in onOk() event
 				    OnAmbilWarnaListener onAmbilWarnaListener = new OnAmbilWarnaListener() {
 				        @Override
 				        public void onCancel(AmbilWarnaDialogFragment dialogFragment) {
-				            Log.d("TAG", "onCancel()");
 				        }
 
 				        @Override
 				        public void onOk(AmbilWarnaDialogFragment dialogFragment, int color) {
-				            Log.d("TAG", "onOk(). Color: " + color);
-
-//				            MainActivity.this.mColor = color;
+				            Settings.getInstance().setColor(color);
+				            ((TyperMenuAdaper)mList.getAdapter()).notifyDataSetChanged();
+				            Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
+				            if (fragment instanceof ContentTyper)
+								((ContentTyper)fragment).setColor(color);
 				        }
 				    };
 
-				    // create new instance of AmbilWarnaDialogFragment and set OnAmbilWarnaListener listener to it
-				    // show dialog fragment with some tag value
 				    FragmentTransaction ft = getFragmentManager().beginTransaction();
-				    AmbilWarnaDialogFragment colorPickerFragment = AmbilWarnaDialogFragment.newInstance(Color.CYAN);
+				    AmbilWarnaDialogFragment colorPickerFragment = AmbilWarnaDialogFragment.newInstance(Settings.getInstance().getColor());
 				    colorPickerFragment.setOnAmbilWarnaListener(onAmbilWarnaListener);
 
 				    colorPickerFragment.show(ft, "color_picker_dialog");
@@ -229,7 +226,8 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			case COLOR_ITEM:
 				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
 				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
-				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText("#" + "4a349f");
+				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText("#" + Integer.toHexString(Settings.getInstance().getColor()).substring(2));
+				((TextView)convertView.findViewById(R.id.speed_value_tv)).setTextColor(Settings.getInstance().getColor());
 				convertView.setTag(item.mName);
 				break;
 			}

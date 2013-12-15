@@ -41,4 +41,8 @@ class Settings {
 		return sp.getInt(Constants.COLOR, CodeTyperApplication.getAppContext().getResources().getColor(R.color.typer_color_green));
 	}
 	
+	public void setColor(int color){
+		sp.edit().putInt(Constants.COLOR, color).commit();
+	}
+	
 }

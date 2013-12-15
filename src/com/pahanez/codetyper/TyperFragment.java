@@ -72,6 +72,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		}
 
 		mHackerViewHidden.requestFocus();
+		mHackerView.setTextColor(Settings.getInstance().getColor());
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(mHackerViewHidden, InputMethodManager.SHOW_IMPLICIT);
@@ -145,6 +146,11 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	@Override
 	public void speedChanged(int speed) {
 		chars = new char[Settings.getInstance().getSpeed()+1];
+	}
+
+	@Override
+	public void setColor(int color) {
+		mHackerView.setTextColor(color);
 	}
 
 }
