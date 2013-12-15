@@ -23,12 +23,12 @@ import android.widget.Toast;
 
 import com.pahanez.codertyper.R;
 
-public class TyperFragment extends Fragment implements OnSourceChanged {
+public class TyperFragment extends Fragment implements ContentTyper {
 	private EditText mHackerViewHidden;
 	private TextView mHackerView;
 	private BufferedReader mReader;
 	private int mSkip = 0;
-	private char[] chars = new char[10];
+	private char[] chars;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +39,7 @@ public class TyperFragment extends Fragment implements OnSourceChanged {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
+		chars = new char[Settings.getInstance().getSpeed()+1];
 		mHackerView = (TextView) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 
@@ -140,6 +140,11 @@ public class TyperFragment extends Fragment implements OnSourceChanged {
 		
 		mHackerView.setText("");
 		mSkip = 0;
+	}
+
+	@Override
+	public void speedChanged(int speed) {
+		chars = new char[Settings.getInstance().getSpeed()+1];
 	}
 
 }

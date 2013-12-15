@@ -29,4 +29,12 @@ class Settings {
 		sp.edit().putString(Constants.SOURCE_ID, id).commit();
 	}
 	
+	public int getSpeed(){
+		return sp.getInt(Constants.SPEED, 4);
+	}
+	
+	public void setSpeed(int speed){
+		sp.edit().putInt(Constants.SPEED, speed).commit();
+	}
+	
 }

@@ -2,20 +2,23 @@ package com.pahanez.codetyper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenedListener;
@@ -48,20 +51,35 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				switch (mList.getAdapter().getItemViewType(position)) {
 				case TyperMenuAdaper.SOURCE_ITEM:
 					Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
-					if (fragment instanceof OnSourceChanged)
-						((OnSourceChanged)fragment).sourceChanged((String)view.getTag());
+					if (fragment instanceof ContentTyper)
+						((ContentTyper)fragment).sourceChanged((String)view.getTag());
 					Settings.getInstance().setSourceId((String)view.getTag());
 					break;
 				case TyperMenuAdaper.SPEED_ITEM:
-					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((new ContextThemeWrapper(getActivity(), R.style.DTheme
-							)));
-					View layout = getLayoutInflater(getArguments()).inflate(R.layout.speed_dialog_layout, null);
-							alertDialogBuilder.setView(layout);
-							// create alert dialog
-							AlertDialog alertDialog = alertDialogBuilder.create();
-			 
-							// show it
-							alertDialog.show();
+						final Dialog d = new Dialog(getActivity(), R.style.Theme_CustomDialog);
+						d.setCanceledOnTouchOutside(true);
+						d.setContentView(R.layout.speed_dialog_layout);
+						
+						
+						
+						final Button b = (Button) d.findViewById(R.id.speed_dialog_b);
+						final SeekBar sb = (SeekBar) d.findViewById(R.id.speed_dialog_sb);
+						sb.setProgress(Settings.getInstance().getSpeed());
+						
+						b.setOnClickListener(new OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								int progress = sb.getProgress();
+								Settings.getInstance().setSpeed(sb.getProgress());
+								Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
+								if (fragment instanceof ContentTyper)
+									((ContentTyper)fragment).speedChanged(progress + 1);
+								d.dismiss();
+							}
+						});
+						
+						d.show();
 					break;
 
 				default:
@@ -170,7 +188,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				break;
 			case SPEED_ITEM:
 				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
-				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText("3");
+				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText(String.valueOf(Settings.getInstance().getSpeed() + 1));
 				convertView.setTag(item.mName);
 				break;
 			}

@@ -144,13 +144,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int button_background_pressed=0x7f020000;
         public static final int button_background_unpressed=0x7f020001;
         public static final int button_states=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int list_item_selector=0x7f020004;
-        public static final int main_menu_background=0x7f020005;
-        public static final int title_cursor=0x7f020006;
+        public static final int dialog_background=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int list_item_selector=0x7f020005;
+        public static final int main_menu_background=0x7f020006;
+        public static final int seed_thumb=0x7f020007;
+        public static final int seed_thumb_pressed=0x7f020008;
+        public static final int seed_thumb_unpressed=0x7f020009;
+        public static final int seek_bg=0x7f02000a;
+        public static final int seek_progress_background=0x7f02000b;
+        public static final int title_cursor=0x7f02000c;
     }
     public static final class id {
-        public static final int button1=0x7f050010;
         public static final int fullscreen=0x7f050003;
         public static final int hacker_et=0x7f050012;
         public static final int hacker_typer_tv=0x7f050011;
@@ -162,10 +167,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_list=0x7f050009;
         public static final int menu_start_button=0x7f050007;
         public static final int right=0x7f050001;
-        public static final int seekBar1=0x7f05000f;
         public static final int selected_view=0x7f050004;
         public static final int separator_tv=0x7f05000a;
         public static final int slidingmenumain=0x7f05000d;
+        public static final int speed_dialog_b=0x7f050010;
+        public static final int speed_dialog_sb=0x7f05000f;
         public static final int speed_tv=0x7f05000b;
         public static final int speed_value_tv=0x7f05000c;
         public static final int textView1=0x7f05000e;
@@ -213,7 +219,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int AppTheme=0x7f0a0001;
         /**  Dialog theme. 
          */
-        public static final int DTheme=0x7f0a0002;
+        public static final int CustomDialog=0x7f0a0002;
+        public static final int Theme_CustomDialog=0x7f0a0003;
     }
     public static final class styleable {
         /** Attributes that can be used with a SlidingMenu.
