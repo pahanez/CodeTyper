@@ -99,6 +99,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 				else if(before == 1 && mHackerView.getText().length() != 0){
 					mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length));
 					mSkip -= chars.length;
+					
 					try {
 						mReader.reset();
 						mReader.skip(mSkip);
