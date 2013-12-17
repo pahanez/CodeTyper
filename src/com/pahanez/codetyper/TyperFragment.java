@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 					.getAssets().open(Settings.getInstance().getSourceId())));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(SAVE_OUR_DATA))
@@ -81,11 +82,15 @@ public class TyperFragment extends Fragment implements ContentTyper {
 			
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if(event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_DEL){
-					android.util.Log.e("p37td8", "back_pressed");
-					return true;
+				Log.e("p37td8" , "onKey");
+				if(event.getAction() == KeyEvent.ACTION_DOWN){
+					Log.e("p37td8" , "keyCode" + keyCode);
+					if(keyCode == KeyEvent.KEYCODE_DEL){
+						android.util.Log.e("p37td8", " : " + ((EditText)v).getText());
+						((EditText)v).setText(((EditText)v).getText()+"a");
+					}
 				}
-				return false;
+				return true;
 			}
 		});
 		mHackerViewHidden.addTextChangedListener(new TextWatcher() {
@@ -94,20 +99,9 @@ public class TyperFragment extends Fragment implements ContentTyper {
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				android.util.Log.e("p37td8", "start : " + start + " before : " + before + " count : " + count);
-				if(before == 0)
-					mHackerView.setText(mHackerView.getText() + getNextData());
-				else if(before == 1 && mHackerView.getText().length() != 0){
-					mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length));
-					mSkip -= chars.length;
-					
-					try {
-						mReader.reset();
-						mReader.skip(mSkip);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+				mHackerView.setText(mHackerView.getText() + getNextData());
 				mHackerView.setSelection(mHackerView.getText().length());
+				
 				android.util.Log.e("p37td8", "mSkip " + mSkip);
 			}
 

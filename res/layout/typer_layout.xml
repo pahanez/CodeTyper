@@ -12,6 +12,8 @@
         android:background="@drawable/main_menu_background"
         android:textColor="@color/typer_color_green"
         android:gravity="bottom"
+        android:inputType="text|textMultiLine"
+        android:singleLine="false"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
         android:textCursorDrawable="@drawable/typer_cursor"
         android:ems="10" >
