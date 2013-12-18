@@ -228,6 +228,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int dialog_choose_speed=0x7f07000d;
         public static final int hue_cursor_content_desc=0x7f070001;
         public static final int hue_view_content_desc=0x7f070000;
+        public static final int initial_text=0x7f070011;
         public static final int menu_choose_source=0x7f07000c;
         public static final int menu_start=0x7f07000a;
         public static final int menu_title=0x7f070009;

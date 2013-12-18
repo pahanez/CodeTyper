@@ -31,6 +31,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	private BufferedReader mReader;
 	private int mSkip = 0;
 	private char[] chars;
+	private int mInitialLength;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +49,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		try {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
 					.getAssets().open(Settings.getInstance().getSourceId())));
+			mReader.mark(1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -72,48 +74,56 @@ public class TyperFragment extends Fragment implements ContentTyper {
 			toast.show();
 
 		}
-
-		mHackerViewHidden.requestFocus();
+		mHackerViewHidden.setText(R.string.initial_text);
+		mInitialLength = mHackerViewHidden.getText().length();
 		mHackerView.setTextColor(Settings.getInstance().getColor());
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(mHackerViewHidden, InputMethodManager.SHOW_IMPLICIT);
+		
 		mHackerViewHidden.setOnKeyListener(new OnKeyListener() {
 			
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				Log.e("p37td8" , "onKey");
-				if(event.getAction() == KeyEvent.ACTION_DOWN){
-					Log.e("p37td8" , "keyCode" + keyCode);
-					if(keyCode == KeyEvent.KEYCODE_DEL){
-						android.util.Log.e("p37td8", " : " + ((EditText)v).getText());
-						((EditText)v).setText(((EditText)v).getText()+"a");
-					}
-				}
-				return true;
+				android.util.Log.e("p37td8", "keyCode	" + keyCode);
+				return false;
 			}
 		});
 		mHackerViewHidden.addTextChangedListener(new TextWatcher() {
-
+			private int mCount;
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				android.util.Log.e("p37td8", "start : " + start + " before : " + before + " count : " + count);
 				mHackerView.setText(mHackerView.getText() + getNextData());
-				mHackerView.setSelection(mHackerView.getText().length());
-				
-				android.util.Log.e("p37td8", "mSkip " + mSkip);
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// EMPTY
+				mCount = mHackerViewHidden.getText().length();
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
-				// EMPTY
+				if((mCount - mHackerViewHidden.getText().length()) == 1){
+					android.util.Log.e("p37td8", "del happened" + mSkip);
+					if(mHackerView.getText().length() >= chars.length * 2){
+						mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length * 2));
+						mSkip -= chars.length * 2;
+					}
+					else{
+						mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length));
+						mSkip -= chars.length;
+					}
+					
+					try {
+						mReader.reset();
+						mReader.skip(mSkip);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				mHackerView.setSelection(mHackerView.getText().length());
 			}
 		});
 
@@ -151,7 +161,6 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	@Override
 	public void sourceChanged(String id) {
 		try {
-			android.util.Log.e("p37td8", " 	" + id);
 			mReader = new BufferedReader(new InputStreamReader(
 					getActivity().getAssets().open(id)));
 		} catch (IOException e) {
