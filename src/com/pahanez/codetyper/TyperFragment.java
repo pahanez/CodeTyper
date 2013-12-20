@@ -6,13 +6,14 @@ import static com.pahanez.codetyper.Constants.SKIP_DATA;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.Scanner;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,10 +29,9 @@ import com.pahanez.codertyper.R;
 public class TyperFragment extends Fragment implements ContentTyper {
 	private EditText mHackerViewHidden;
 	private FocusedEditText mHackerView;
-	private BufferedReader mReader;
+	private StringReader mReader;
 	private int mSkip = 0;
 	private char[] chars;
-	private int mInitialLength;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,13 +46,25 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		mHackerView = (FocusedEditText) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 
-		try {
+	/*	try {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
 					.getAssets().open(Settings.getInstance().getSourceId())));
 			mReader.mark(1);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		} */
+		
+		try {
+			String content = new Scanner( new InputStreamReader(getActivity()
+					.getAssets().open(Settings.getInstance().getSourceId())) ).useDelimiter("\\A").next();
+			
+			android.util.Log.e("p37td8", "	 " + content.length() + " , " + content);
+			
+			mReader = new StringReader(content);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(SAVE_OUR_DATA))
@@ -75,7 +87,6 @@ public class TyperFragment extends Fragment implements ContentTyper {
 
 		}
 		mHackerViewHidden.setText(R.string.initial_text);
-		mInitialLength = mHackerViewHidden.getText().length();
 		mHackerView.setTextColor(Settings.getInstance().getColor());
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -85,7 +96,6 @@ public class TyperFragment extends Fragment implements ContentTyper {
 			
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				android.util.Log.e("p37td8", "keyCode	" + keyCode);
 				return false;
 			}
 		});
@@ -160,12 +170,20 @@ public class TyperFragment extends Fragment implements ContentTyper {
 
 	@Override
 	public void sourceChanged(String id) {
-		try {
+		/*try {
 			mReader = new BufferedReader(new InputStreamReader(
 					getActivity().getAssets().open(id)));
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Something went wrong.");
+		}*/
+		
+		try {
+			mReader = new StringReader( new Scanner( new InputStreamReader(getActivity()
+					.getAssets().open(Settings.getInstance().getSourceId())) ).useDelimiter("\\A").next());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
 		mHackerView.setText("");

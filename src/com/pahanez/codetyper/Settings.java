@@ -1,10 +1,9 @@
 package com.pahanez.codetyper;
 
-import com.pahanez.codertyper.R;
-
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.pahanez.codertyper.R;
 
 class Settings {
 	private SharedPreferences sp;
