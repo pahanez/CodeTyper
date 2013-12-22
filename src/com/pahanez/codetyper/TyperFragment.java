@@ -144,7 +144,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mHackerView != null)
+		if (mHackerView != null) 
 			outState.putString(SAVE_OUR_DATA, mHackerView.getText().toString());
 		if (mSkip != 0)
 			outState.putInt(SKIP_DATA, mSkip);
