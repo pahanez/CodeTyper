@@ -6,8 +6,6 @@ import static com.pahanez.codetyper.Constants.SKIP_DATA;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.util.Scanner;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,9 +16,11 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +29,7 @@ import com.pahanez.codertyper.R;
 public class TyperFragment extends Fragment implements ContentTyper {
 	private EditText mHackerViewHidden;
 	private FocusedEditText mHackerView;
-	private StringReader mReader;
+	private BufferedReader mReader; 
 	private int mSkip = 0;
 	private char[] chars;
 
@@ -46,25 +46,13 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		mHackerView = (FocusedEditText) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 
-	/*	try {
+		try {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
 					.getAssets().open(Settings.getInstance().getSourceId())));
 			mReader.mark(1);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} */
-		
-		try {
-			String content = new Scanner( new InputStreamReader(getActivity()
-					.getAssets().open(Settings.getInstance().getSourceId())) ).useDelimiter("\\A").next();
-			
-			android.util.Log.e("p37td8", "	 " + content.length() + " , " + content);
-			
-			mReader = new StringReader(content);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		} 
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(SAVE_OUR_DATA))
@@ -79,7 +67,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 				}
 		} else {
 			Toast toast = new Toast(getActivity().getApplicationContext());
-			toast.setDuration(Toast.LENGTH_LONG);
+			toast.setDuration(Toast.LENGTH_LONG); 
 			toast.setView(getLayoutInflater(savedInstanceState).inflate(
 					R.layout.toast_text, null));
 			toast.setGravity(Gravity.TOP, 0, 100);
@@ -104,7 +92,13 @@ public class TyperFragment extends Fragment implements ContentTyper {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				mHackerView.setText(mHackerView.getText() + getNextData());
+				try {
+					mSkip += mReader.read(chars);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mHackerView.append(new String(chars));
 			}
 
 			@Override
@@ -125,7 +119,6 @@ public class TyperFragment extends Fragment implements ContentTyper {
 						mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length));
 						mSkip -= chars.length;
 					}
-					
 					try {
 						mReader.reset();
 						mReader.skip(mSkip);
@@ -138,7 +131,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		});
 
 	}
-
+	
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -146,16 +139,6 @@ public class TyperFragment extends Fragment implements ContentTyper {
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(mHackerViewHidden,
 				InputMethodManager.HIDE_IMPLICIT_ONLY);
-	}
-
-	private String getNextData() {
-		try {
-			mSkip += mReader.read(chars);
-			return new String(chars, 0, chars.length);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	@Override
@@ -170,21 +153,15 @@ public class TyperFragment extends Fragment implements ContentTyper {
 
 	@Override
 	public void sourceChanged(String id) {
-		/*try {
+		try {
 			mReader = new BufferedReader(new InputStreamReader(
 					getActivity().getAssets().open(id)));
+			mReader.mark(1);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Something went wrong.");
-		}*/
-		
-		try {
-			mReader = new StringReader( new Scanner( new InputStreamReader(getActivity()
-					.getAssets().open(Settings.getInstance().getSourceId())) ).useDelimiter("\\A").next());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
+		
 		
 		mHackerView.setText("");
 		mSkip = 0;
