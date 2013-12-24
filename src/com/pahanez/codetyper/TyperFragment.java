@@ -133,7 +133,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	}
 	
 	@Override
-	public void onStop() {
+	public void onStop() { 
 		super.onStop();
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
