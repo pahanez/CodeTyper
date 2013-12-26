@@ -41,17 +41,17 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		
 		
-		mList = (ListView) view.findViewById(R.id.menu_list);
-		mList.setAdapter(new TyperMenuAdaper(initMenuData()));
+		setList((ListView) view.findViewById(R.id.menu_list));
+		getList().setAdapter(new TyperMenuAdaper(initMenuData() , getLayoutInflater(savedInstanceState)));
 		
-		mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		getList().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-		mList.setOnItemClickListener(new OnItemClickListener() {
+		getList().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				switch (mList.getAdapter().getItemViewType(position)) {
+				switch (getList().getAdapter().getItemViewType(position)) {
 				case TyperMenuAdaper.SOURCE_ITEM:
 					Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
 					if (fragment instanceof ContentTyper)
@@ -93,7 +93,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				        @Override
 				        public void onOk(AmbilWarnaDialogFragment dialogFragment, int color) {
 				            Settings.getInstance().setColor(color);
-				            ((TyperMenuAdaper)mList.getAdapter()).notifyDataSetChanged();
+				            ((TyperMenuAdaper)getList().getAdapter()).notifyDataSetChanged();
 				            Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
 				            if (fragment instanceof ContentTyper)
 								((ContentTyper)fragment).setColor(color);
@@ -131,9 +131,9 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	@Override
 	public void onOpened() {
-		for (int i = 0; i < mList.getAdapter().getCount(); i++) {
-			if((((MenuItem)mList.getAdapter().getItem(i)).mName).equals(Settings.getInstance().getSourceId())){
-					mList.setItemChecked(i, true);
+		for (int i = 0; i < getList().getAdapter().getCount(); i++) {
+			if((((MenuItem)getList().getAdapter().getItem(i)).mName).equals(Settings.getInstance().getSourceId())){
+					getList().setItemChecked(i, true);
 					break;
 			}
 		}
@@ -174,21 +174,23 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		
 	}
 	
-	public ProgressBar getmProgressBar() {
-		return mProgressBar;
+	public ListView getList() {
+		return mList;
 	}
 
-	public void setmProgressBar(ProgressBar mProgressBar) {
-		this.mProgressBar = mProgressBar;
+	public void setList(ListView mList) {
+		this.mList = mList;
 	}
-	
-	
-	private final class TyperMenuAdaper extends BaseAdapter{
-		
+
+	public final static class TyperMenuAdaper extends BaseAdapter{
+		private OnProgressBarChangedListener mProgressBarChangedListener;
 		private final List<MenuItem> mItems;
+		private LayoutInflater mInflater;
+		private ProgressBar mProgressBar;
 		
-		public TyperMenuAdaper(List<MenuItem> items) {
+		public TyperMenuAdaper(List<MenuItem> items, LayoutInflater lInflater) {
 			mItems = items;
+			mInflater = lInflater;
 		}
 		private static final int SEPARATOR_ITEM   	= 0;
 		private static final int SOURCE_ITEM 		= 1;
@@ -224,31 +226,32 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			
 			switch (getItemViewType(position)) {
 			case SEPARATOR_ITEM:
-				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_separator, null);
+				convertView = mInflater.inflate(R.layout.sliding_menu_separator, null);
 				((TextView)convertView.findViewById(R.id.separator_tv)).setText(item.mName);
 				convertView.setClickable(false);
 				break;
 			case SOURCE_ITEM:
-				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_item, null);
+				convertView = mInflater.inflate(R.layout.sliding_menu_item, null);
 				((CheckedTextView)convertView.findViewById(android.R.id.text1)).setText(item.mName);
 				convertView.setTag(item.mName);
 				break;
 			case SPEED_ITEM:
-				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
+				convertView = mInflater.inflate(R.layout.sliding_menu_speed, null);
 				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
 				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText(String.valueOf(Settings.getInstance().getSpeed() + 1));
 				convertView.setTag(item.mName);
 				break;
 			case COLOR_ITEM:
-				convertView = getLayoutInflater(getArguments()).inflate(R.layout.sliding_menu_speed, null);
+				convertView = mInflater.inflate(R.layout.sliding_menu_speed, null);
 				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
 				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText("#" + Integer.toHexString(Settings.getInstance().getColor()).substring(2));
 				((TextView)convertView.findViewById(R.id.speed_value_tv)).setTextColor(Settings.getInstance().getColor());
 				convertView.setTag(item.mName);
 				break;
 			case PROGRESS_ITEM:
-				convertView = getLayoutInflater(getArguments()).inflate(R.layout.progress_item, null);
+				convertView = mInflater.inflate(R.layout.progress_item, null);
 				mProgressBar = ((ProgressBar)convertView.findViewById(R.id.progress_item));
+				if(mProgressBarChangedListener != null) mProgressBarChangedListener.onProgressBarChanged(mProgressBar);
 				break;
 			}
 			
@@ -270,6 +273,23 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		@Override
 		public int getViewTypeCount() {
 			return 5;
+		}
+
+		public OnProgressBarChangedListener getProgressBarChangedListener() {
+			return mProgressBarChangedListener;
+		}
+
+		public void setProgressBarChangedListener(
+				OnProgressBarChangedListener mProgressBarChangedListener) {
+			this.mProgressBarChangedListener = mProgressBarChangedListener;
+		}
+		
+		public ProgressBar getmProgressBar() {
+			return mProgressBar;
+		}
+
+		public void setmProgressBar(ProgressBar mProgressBar) {
+			this.mProgressBar = mProgressBar;
 		}
 	} 
 }

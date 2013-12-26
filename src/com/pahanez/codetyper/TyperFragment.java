@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,28 +27,29 @@ import android.widget.Toast;
 
 import com.pahanez.codertyper.R;
 
-public class TyperFragment extends Fragment implements ContentTyper {
+public class TyperFragment extends Fragment implements ContentTyper,OnProgressBarChangedListener {
 	private EditText mHackerViewHidden;
 	private FocusedEditText mHackerView;
 	private BufferedReader mReader; 
 	private int mSkip = 0;
 	private char[] chars;
+	private Updater mUpdater;
 	
 	private class Updater implements Runnable {
 		private ProgressBar pb;
 		
 		public Updater(ProgressBar pb){
-			this.pb = pb;
+			this.setProgressBar(pb);
 		}
 
 		@Override
 		public void run() {
 			for(int i = 0; i <= 100; i++){
 				final int k = i;
-				pb.post(new Runnable() {
+				getProgressBar().post(new Runnable() {
 					@Override
 					public void run() {
-						pb.setProgress(k);
+						getProgressBar().setProgress(k);
 					}
 				});
 				
@@ -67,6 +66,14 @@ public class TyperFragment extends Fragment implements ContentTyper {
 				
 			}
 		}
+
+		public ProgressBar getProgressBar() {
+			return pb;
+		}
+
+		public void setProgressBar(ProgressBar pb) {
+			this.pb = pb;
+		}
 		
 	}
 
@@ -82,12 +89,13 @@ public class TyperFragment extends Fragment implements ContentTyper {
 		chars = new char[Settings.getInstance().getSpeed()+1];
 		mHackerView = (FocusedEditText) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
-
+		((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).setProgressBarChangedListener(this);
 		try {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
 					.getAssets().open(Settings.getInstance().getSourceId())));
 			mReader.mark(1);
-			AsyncTask.SERIAL_EXECUTOR.execute(new Updater(((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getmProgressBar()));
+			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar());
+			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -213,6 +221,12 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	@Override
 	public void setColor(int color) {
 		mHackerView.setTextColor(color);
+	}
+
+	@Override
+	public void onProgressBarChanged(ProgressBar pb) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
