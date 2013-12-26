@@ -6,9 +6,13 @@ import static com.pahanez.codetyper.Constants.SKIP_DATA;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,12 +20,11 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.pahanez.codertyper.R;
@@ -32,6 +35,40 @@ public class TyperFragment extends Fragment implements ContentTyper {
 	private BufferedReader mReader; 
 	private int mSkip = 0;
 	private char[] chars;
+	
+	private class Updater implements Runnable {
+		private ProgressBar pb;
+		
+		public Updater(ProgressBar pb){
+			this.pb = pb;
+		}
+
+		@Override
+		public void run() {
+			for(int i = 0; i <= 100; i++){
+				final int k = i;
+				pb.post(new Runnable() {
+					@Override
+					public void run() {
+						pb.setProgress(k);
+					}
+				});
+				
+				
+				
+				try {
+					TimeUnit.MILLISECONDS.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				
+			}
+		}
+		
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +87,7 @@ public class TyperFragment extends Fragment implements ContentTyper {
 			mReader = new BufferedReader(new InputStreamReader(getActivity()
 					.getAssets().open(Settings.getInstance().getSourceId())));
 			mReader.mark(1);
+			AsyncTask.SERIAL_EXECUTOR.execute(new Updater(((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getmProgressBar()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 

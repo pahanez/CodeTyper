@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.pahanez.codertyper.R;
 public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	private ListView mList;
+	private ProgressBar mProgressBar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,6 +123,8 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.typer_settings)));
 		menuList.add(new MenuItem.SpeedItem(getString(R.string.typer_speed)));
 		menuList.add(new MenuItem.ColorItem(getString(R.string.typer_color)));
+		menuList.add(new MenuItem.SeparatorItem(getString(R.string.menu_progress)));
+		menuList.add(new MenuItem.ProgressItem(null));
 		return menuList;
 			
 	}
@@ -162,7 +166,20 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			public ColorItem(String name) {
 				super(name);
 			}}
+		private static final class ProgressItem extends MenuItem{
+
+			public ProgressItem(String name) {
+				super(name);
+			}}
 		
+	}
+	
+	public ProgressBar getmProgressBar() {
+		return mProgressBar;
+	}
+
+	public void setmProgressBar(ProgressBar mProgressBar) {
+		this.mProgressBar = mProgressBar;
 	}
 	
 	
@@ -177,6 +194,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		private static final int SOURCE_ITEM 		= 1;
 		private static final int SPEED_ITEM 		= 2;
 		private static final int COLOR_ITEM 		= 3;
+		private static final int PROGRESS_ITEM 		= 4;
 		
 		
 		@Override
@@ -228,6 +246,10 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				((TextView)convertView.findViewById(R.id.speed_value_tv)).setTextColor(Settings.getInstance().getColor());
 				convertView.setTag(item.mName);
 				break;
+			case PROGRESS_ITEM:
+				convertView = getLayoutInflater(getArguments()).inflate(R.layout.progress_item, null);
+				mProgressBar = ((ProgressBar)convertView.findViewById(R.id.progress_item));
+				break;
 			}
 			
 			return convertView;
@@ -236,13 +258,18 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		@Override
 		public int getItemViewType(int position) {
 			MenuItem item = mItems.get(position);
-			return item instanceof MenuItem.SeparatorItem ? SEPARATOR_ITEM : item instanceof MenuItem.SourceItem ? SOURCE_ITEM : item instanceof MenuItem.SpeedItem?SPEED_ITEM : COLOR_ITEM ;
+			if(item instanceof MenuItem.SeparatorItem) return SEPARATOR_ITEM;
+			else if (item instanceof MenuItem.SourceItem) return SOURCE_ITEM;
+			else if (item instanceof MenuItem.SpeedItem) return SPEED_ITEM;
+			else if (item instanceof MenuItem.ColorItem) return COLOR_ITEM;
+			else if (item instanceof MenuItem.ProgressItem) return PROGRESS_ITEM;
+			throw new IllegalStateException("Something wrong!");
 		}
 		
 		
 		@Override
 		public int getViewTypeCount() {
-			return 4;
+			return 5;
 		}
 	} 
 }

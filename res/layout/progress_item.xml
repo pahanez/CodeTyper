@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+	android:background="@drawable/list_item_selector"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/progress_item"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:progressDrawable="@drawable/seek_progress_background"
+        android:max="100"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
