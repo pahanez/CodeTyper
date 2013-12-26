@@ -4,7 +4,9 @@ import static com.pahanez.codetyper.Constants.SAVE_OUR_DATA;
 import static com.pahanez.codetyper.Constants.SKIP_DATA;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +39,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	
 	private class Updater implements Runnable {
 		private ProgressBar pb;
-		
+		private boolean isCancelled = false;
 		public Updater(ProgressBar pb){
 			this.setProgressBar(pb);
 		}
@@ -45,6 +47,8 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		@Override
 		public void run() {
 			for(int i = 0; i <= 100; i++){
+				if(!isCancelled()){
+					
 				final int k = i;
 				getProgressBar().post(new Runnable() {
 					@Override
@@ -64,6 +68,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 				
 				
 				
+				}
 			}
 		}
 
@@ -73,6 +78,14 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 		public void setProgressBar(ProgressBar pb) {
 			this.pb = pb;
+		}
+
+		public boolean isCancelled() {
+			return isCancelled;
+		}
+
+		public void setCancelled(boolean isCancelled) {
+			this.isCancelled = isCancelled;
 		}
 		
 	}
@@ -200,9 +213,16 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	@Override
 	public void sourceChanged(String id) {
 		try {
-			mReader = new BufferedReader(new InputStreamReader(
-					getActivity().getAssets().open(id)));
+			InputStream stream = 
+					getActivity().getAssets().open(id);
+			mReader = new BufferedReader(new InputStreamReader(stream));
 			mReader.mark(1);
+
+			if(mUpdater != null)mUpdater.setCancelled(true);
+
+			android.util.Log.e("p37td8", "if :	 " + stream.available());
+			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar());
+			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Something went wrong.");
@@ -225,8 +245,8 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 	@Override
 	public void onProgressBarChanged(ProgressBar pb) {
-		// TODO Auto-generated method stub
-		
+		if(mUpdater != null)
+			mUpdater.setProgressBar(pb);
 	}
 
 }

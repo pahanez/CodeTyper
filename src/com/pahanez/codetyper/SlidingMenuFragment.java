@@ -249,8 +249,12 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView.setTag(item.mName);
 				break;
 			case PROGRESS_ITEM:
+				int progress = 0;
+				if(mProgressBar!=null)
+					progress = mProgressBar.getProgress();
 				convertView = mInflater.inflate(R.layout.progress_item, null);
 				mProgressBar = ((ProgressBar)convertView.findViewById(R.id.progress_item));
+				mProgressBar.setProgress(progress);
 				if(mProgressBarChangedListener != null) mProgressBarChangedListener.onProgressBarChanged(mProgressBar);
 				break;
 			}
