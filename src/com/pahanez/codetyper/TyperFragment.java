@@ -224,7 +224,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar());
 			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 			throw new RuntimeException("Something went wrong.");
 		}
 		
