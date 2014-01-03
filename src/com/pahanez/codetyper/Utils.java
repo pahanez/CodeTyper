@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
+import com.pahanez.codertyper.R;
+
+
 public class Utils {
 	public static String slurp(final InputStream is, final int bufferSize)
 	{
@@ -32,5 +35,12 @@ public class Utils {
 	      /* ... */
 	  }
 	  return out.toString();
+	}
+	
+	public static boolean shouldStart(String name){
+		String [] extras = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.extra_source_names);
+		for (String extra_name : extras)
+			if(name.equals(extra_name)) return false;
+		return true;
 	}
 }

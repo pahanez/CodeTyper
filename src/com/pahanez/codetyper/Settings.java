@@ -13,7 +13,7 @@ class Settings {
 	private Settings(){
 		
 		sp = CodeTyperApplication.getAppContext().getSharedPreferences("codetyper", Context.MODE_PRIVATE);
-		mData = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.source_names);
+		mData = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.extra_source_names);
 	}
 	
 	public static Settings getInstance(){

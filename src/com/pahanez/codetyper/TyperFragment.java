@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,18 +37,27 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	private int mSkip = 0;
 	private char[] chars;
 	private Updater mUpdater;
+	private String mSourceId;
+	private int mFileSize;
 	
 	private class Updater implements Runnable {
 		private ProgressBar pb;
-		private boolean isCancelled = false;
-		public Updater(ProgressBar pb){
+		private boolean mIsCancelled = false;
+		private int mDelay;
+		private int mFileSize;
+		private String mFileName;
+		private boolean mCatched = false;
+		public Updater(ProgressBar pb , int fileSize , String fileName){
 			this.setProgressBar(pb);
+			mDelay = fileSize / 10;
+			mFileName = fileName;
+			mFileSize = fileSize;
 		}
 
 		@Override
 		public void run() {
 			for(int i = 0; i <= 100; i++){
-				if(!isCancelled()){
+				if(!isCancelled() && Utils.shouldStart(mFileName)){
 					
 				final int k = i;
 				getProgressBar().post(new Runnable() {
@@ -60,7 +70,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 				
 				
 				try {
-					TimeUnit.MILLISECONDS.sleep(500);
+					TimeUnit.MILLISECONDS.sleep(mDelay);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -68,7 +78,24 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 				
 				
 				
+				}else{
+					getProgressBar().setProgress(0);
 				}
+			}
+			if(!isCancelled()){
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Toast toast = new Toast(getActivity().getApplicationContext());
+						toast.setDuration(Toast.LENGTH_LONG); 
+						toast.setView(getLayoutInflater(getArguments()).inflate(
+								R.layout.catched_toast, null));
+						toast.setGravity(Gravity.TOP, 0, 100);
+						toast.show();
+					}
+				});
+				mCatched = true;
 			}
 		}
 
@@ -81,11 +108,19 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		}
 
 		public boolean isCancelled() {
-			return isCancelled;
+			return mIsCancelled;
 		}
 
 		public void setCancelled(boolean isCancelled) {
-			this.isCancelled = isCancelled;
+			this.mIsCancelled = isCancelled;
+		}
+		
+		private void setExtraProgress(int skip){
+			pb.setProgress((skip * 100) / mFileSize );
+		}
+		
+		private boolean isCatched(){
+			return mCatched;
 		}
 		
 	}
@@ -104,10 +139,15 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 		((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).setProgressBarChangedListener(this);
 		try {
-			mReader = new BufferedReader(new InputStreamReader(getActivity()
-					.getAssets().open(Settings.getInstance().getSourceId())));
+			mSourceId = Settings.getInstance().getSourceId();
+			InputStream stream = 
+					getActivity().getAssets().open(mSourceId);
+			mReader = new BufferedReader(new InputStreamReader(stream));
 			mReader.mark(1);
-			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar());
+
+			if(mUpdater != null)mUpdater.setCancelled(true);
+			mFileSize = stream.available();
+			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar() ,mFileSize , Settings.getInstance().getSourceId());
 			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -185,7 +225,15 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 						e.printStackTrace();
 					}
 				}
+				if(!Utils.shouldStart(mSourceId))
+					mUpdater.setExtraProgress(mSkip);
 				mHackerView.setSelection(mHackerView.getText().length());
+				if(mSkip > 200){
+					Dialog dialog = new EndDialog(getActivity() , R.style.Theme_CustomDialog);
+					dialog.show();
+				}
+//					getFragmentManager().beginTransaction().add(new EndDialog(), "end_dialog").commit();
+				android.util.Log.e("p37td8", "" + (mSkip + chars.length)+ " , " + mFileSize + " , " + ((mSkip +chars.length) > mFileSize));
 			}
 		});
 
@@ -213,6 +261,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	@Override
 	public void sourceChanged(String id) {
 		try {
+			mSourceId = id;
 			InputStream stream = 
 					getActivity().getAssets().open(id);
 			mReader = new BufferedReader(new InputStreamReader(stream));
@@ -221,7 +270,8 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 			if(mUpdater != null)mUpdater.setCancelled(true);
 
 			android.util.Log.e("p37td8", "if :	 " + stream.available());
-			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar());
+			mFileSize = stream.available();
+			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar() , mFileSize , id);
 			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 		} catch (IOException e) {
 			e.printStackTrace(); 

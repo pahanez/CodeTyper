@@ -29,7 +29,6 @@ import com.pahanez.codertyper.R;
 public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	private ListView mList;
-	private ProgressBar mProgressBar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,6 +119,9 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.menu_choose_source)));
 		for(String name : getResources().getStringArray(R.array.source_names))
 			menuList.add(new MenuItem.SourceItem(name));
+		menuList.add(new MenuItem.SeparatorItem(getString(R.string.menu_extra_source)));
+		for(String name : getResources().getStringArray(R.array.extra_source_names))
+			menuList.add(new MenuItem.ExtraSourceItem(name));
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.typer_settings)));
 		menuList.add(new MenuItem.SpeedItem(getString(R.string.typer_speed)));
 		menuList.add(new MenuItem.ColorItem(getString(R.string.typer_color)));
@@ -149,6 +151,11 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		private static final class SeparatorItem extends MenuItem{
 
 			public SeparatorItem(String name) {
+				super(name);
+			}}
+		private static final class ExtraSourceItem extends MenuItem{
+
+			public ExtraSourceItem(String name) {
 				super(name);
 			}}
 		private static final class SourceItem extends MenuItem{
@@ -266,6 +273,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		public int getItemViewType(int position) {
 			MenuItem item = mItems.get(position);
 			if(item instanceof MenuItem.SeparatorItem) return SEPARATOR_ITEM;
+			else if (item instanceof MenuItem.ExtraSourceItem) return SOURCE_ITEM;
 			else if (item instanceof MenuItem.SourceItem) return SOURCE_ITEM;
 			else if (item instanceof MenuItem.SpeedItem) return SPEED_ITEM;
 			else if (item instanceof MenuItem.ColorItem) return COLOR_ITEM;
@@ -276,7 +284,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		
 		@Override
 		public int getViewTypeCount() {
-			return 5;
+			return 6;
 		}
 
 		public OnProgressBarChangedListener getProgressBarChangedListener() {
