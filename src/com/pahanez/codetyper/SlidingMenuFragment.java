@@ -29,10 +29,12 @@ import com.pahanez.codertyper.R;
 public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	private ListView mList;
+	private SlidingMenuInitializedListener mInitListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		android.util.Log.e("p37td8", "SlidingMenuFragment onCreateView");
 		return inflater.inflate(R.layout.menu_layout, null);
 	}
 
@@ -40,7 +42,8 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		
 		
-		setList((ListView) view.findViewById(R.id.menu_list));
+		mList = (ListView) view.findViewById(R.id.menu_list);
+		android.util.Log.e("p37td8", "post setList" + mList);
 		getList().setAdapter(new TyperMenuAdaper(initMenuData() , getLayoutInflater(savedInstanceState)));
 		
 		getList().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -112,6 +115,8 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			}
 		});
 		super.onViewCreated(view, savedInstanceState);
+		if(mInitListener != null) mInitListener.slidingMenuInitialized();
+			
 	}
 
 	private List<MenuItem> initMenuData() {
@@ -133,6 +138,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	@Override
 	public void onOpened() {
+		android.util.Log.e("p37td8", "mList " + mList);
 		for (int i = 0; i < getList().getAdapter().getCount(); i++) {
 			if((((MenuItem)getList().getAdapter().getItem(i)).mName).equals(Settings.getInstance().getSourceId())){
 					getList().setItemChecked(i, true);
@@ -186,7 +192,16 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	}
 
 	public void setList(ListView mList) {
+		android.util.Log.e("p37td8", "mList	" + mList);
 		this.mList = mList;
+	}
+
+	public SlidingMenuInitializedListener getInitListener() {
+		return mInitListener;
+	}
+
+	public void setInitListener(SlidingMenuInitializedListener mInitListener) {
+		this.mInitListener = mInitListener;
 	}
 
 	public final static class TyperMenuAdaper extends BaseAdapter{
@@ -262,6 +277,8 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView = mInflater.inflate(R.layout.progress_item, null);
 				mProgressBar = ((ProgressBar)convertView.findViewById(R.id.progress_item));
 				mProgressBar.setProgress(progress);
+				android.util.Log.e("p37td8", "mProgBar :: " + mProgressBar);
+				android.util.Log.e("p37td8", "mProgressBarChangedListener : " + mProgressBarChangedListener);
 				if(mProgressBarChangedListener != null) mProgressBarChangedListener.onProgressBarChanged(mProgressBar);
 				break;
 			}
@@ -294,6 +311,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		public void setProgressBarChangedListener(
 				OnProgressBarChangedListener mProgressBarChangedListener) {
 			this.mProgressBarChangedListener = mProgressBarChangedListener;
+			android.util.Log.e("p37td8", "setProgressBarChangedListener : " + mProgressBarChangedListener);
 		}
 		
 		public ProgressBar getmProgressBar() {

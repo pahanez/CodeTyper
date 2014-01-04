@@ -10,6 +10,7 @@
     <string name="menu_extra_source">Extra source</string>
     <string name="menu_choose_source">Choose source</string>
     <string name="menu_progress">Progress</string>
+    <string name="preparation">Preparation</string>
     <string name="you_was_catched">You was catched! Try again!</string>
     <string name="dialog_choose_speed">Choose typer speed</string>
     <string name="ok">Ok</string>

@@ -21,20 +21,18 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void initSlidingMenu() {
-        mMenu = new SlidingMenu(this);
-        mMenu.setMode(SlidingMenu.LEFT);
-        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        mMenu.setFadeDegree(0.35f);
-        mMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        mMenu.setMenu(R.layout.menu);
-        Fragment fragment = new SlidingMenuFragment();
-        mMenu.setOnOpenedListener((OnOpenedListener) fragment);
-        
-        getSupportFragmentManager()
-        .beginTransaction()
-        .replace(R.id.menu_frame, fragment)
-        .commit();
+	        mMenu = new SlidingMenu(this);
+	        mMenu.setMode(SlidingMenu.LEFT);
+	        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	        mMenu.setFadeDegree(0.35f);
+	        mMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+	        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+	        mMenu.setMenu(R.layout.menu);
+	        if(getSupportFragmentManager().findFragmentById(R.id.menu_frame) == null){
+		        Fragment fragment = new SlidingMenuFragment();
+		        mMenu.setOnOpenedListener((OnOpenedListener) fragment);
+		       	getSupportFragmentManager().beginTransaction().replace(R.id.menu_frame, fragment).commit();
+		}
 	}
 
 	private void initMenuFrament() {

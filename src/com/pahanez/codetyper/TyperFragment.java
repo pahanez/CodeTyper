@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,7 @@ import android.widget.Toast;
 
 import com.pahanez.codertyper.R;
 
-public class TyperFragment extends Fragment implements ContentTyper,OnProgressBarChangedListener {
+public class TyperFragment extends Fragment implements ContentTyper,OnProgressBarChangedListener,SlidingMenuInitializedListener {
 	private EditText mHackerViewHidden;
 	private FocusedEditText mHackerView;
 	private BufferedReader mReader; 
@@ -39,6 +40,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	private Updater mUpdater;
 	private String mSourceId;
 	private int mFileSize;
+	private Dialog mEndDialog;
 	
 	private class Updater implements Runnable {
 		private ProgressBar pb;
@@ -47,7 +49,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		private int mFileSize;
 		private String mFileName;
 		private boolean mCatched = false;
-		public Updater(ProgressBar pb , int fileSize , String fileName){
+		public Updater(int fileSize , String fileName){
 			this.setProgressBar(pb);
 			mDelay = fileSize / 10;
 			mFileName = fileName;
@@ -56,6 +58,19 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 		@Override
 		public void run() {
+			while(pb == null){ 
+				SlidingMenuFragment menu = (SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame);
+				if(menu.getList() != null)
+					pb = ((SlidingMenuFragment.TyperMenuAdaper)menu.getList().getAdapter()).getmProgressBar();
+				android.util.Log.e("p37td8", "getPBar == null");
+				try {
+					TimeUnit.MILLISECONDS.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			for(int i = 0; i <= 100; i++){
 				if(!isCancelled() && Utils.shouldStart(mFileName)){
 					
@@ -115,8 +130,9 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 			this.mIsCancelled = isCancelled;
 		}
 		
-		private void setExtraProgress(int skip){
-			pb.setProgress((skip * 100) / mFileSize );
+		public void setExtraProgress(int skip){ 
+			if(pb != null)
+				pb.setProgress((skip * 100) / mFileSize );
 		}
 		
 		private boolean isCatched(){
@@ -124,20 +140,28 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		}
 		
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.typer_layout, null);
 	}
-
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(mUpdater !=null) mUpdater.setCancelled(true);
+	}
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		chars = new char[Settings.getInstance().getSpeed()+1];
 		mHackerView = (FocusedEditText) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
-		((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).setProgressBarChangedListener(this);
+		((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).setInitListener(this);
+		setRetainInstance(true);
+//		
 		try {
 			mSourceId = Settings.getInstance().getSourceId();
 			InputStream stream = 
@@ -145,10 +169,11 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 			mReader = new BufferedReader(new InputStreamReader(stream));
 			mReader.mark(1);
 
-			if(mUpdater != null)mUpdater.setCancelled(true);
 			mFileSize = stream.available();
-			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar() ,mFileSize , Settings.getInstance().getSourceId());
+			if(mUpdater != null)mUpdater.setCancelled(true);
+			mUpdater = new Updater(mFileSize , Settings.getInstance().getSourceId());
 			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -225,12 +250,13 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 						e.printStackTrace();
 					}
 				}
-				if(!Utils.shouldStart(mSourceId))
+				if(mUpdater !=null && !Utils.shouldStart(mSourceId))
 					mUpdater.setExtraProgress(mSkip);
 				mHackerView.setSelection(mHackerView.getText().length());
 				if(mSkip > 200){
-					Dialog dialog = new EndDialog(getActivity() , R.style.Theme_CustomDialog);
-					dialog.show();
+					mEndDialog = new EndDialog(getActivity() , R.style.Theme_CustomDialog , !mUpdater.isCatched());
+					mEndDialog.setCancelable(false);
+					mEndDialog.show();
 				}
 //					getFragmentManager().beginTransaction().add(new EndDialog(), "end_dialog").commit();
 				android.util.Log.e("p37td8", "" + (mSkip + chars.length)+ " , " + mFileSize + " , " + ((mSkip +chars.length) > mFileSize));
@@ -241,11 +267,18 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	
 	@Override
 	public void onStop() { 
-		super.onStop();
+		super.onStop(); 
+		if(mEndDialog != null) mEndDialog.dismiss();
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(mHackerViewHidden,
 				InputMethodManager.HIDE_IMPLICIT_ONLY);
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		android.util.Log.e("p37td8", "!_! conf Changed"); 
 	}
 
 	@Override
@@ -271,7 +304,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 			android.util.Log.e("p37td8", "if :	 " + stream.available());
 			mFileSize = stream.available();
-			mUpdater = new Updater(((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar() , mFileSize , id);
+			mUpdater = new Updater(mFileSize , id);
 			AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 		} catch (IOException e) {
 			e.printStackTrace(); 
@@ -295,8 +328,19 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 	@Override
 	public void onProgressBarChanged(ProgressBar pb) {
+		android.util.Log.e("p37td8", "onProgressBarChanged pb" + pb);
 		if(mUpdater != null)
 			mUpdater.setProgressBar(pb);
+	}
+
+	@Override
+	public void slidingMenuInitialized() {
+		((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).setProgressBarChangedListener(this);
+		
+		if(mUpdater != null)mUpdater.setCancelled(true);
+		android.util.Log.e("p37td8", "slidingMenuInitialized pb" + ((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).getmProgressBar());
+		mUpdater = new Updater(mFileSize , Settings.getInstance().getSourceId());
+		AsyncTask.SERIAL_EXECUTOR.execute(mUpdater);
 	}
 
 }
