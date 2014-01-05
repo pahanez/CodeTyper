@@ -1,34 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
+    android:layout_height="match_parent"
     android:layout_margin="20dp"
-    android:paddingBottom="20dp"
-    android:background="@drawable/dialog_background" 
-    android:layout_height="match_parent">
+    android:background="@drawable/dialog_background"
+    android:paddingBottom="20dp" >
 
     <TextView
         android:id="@+id/end_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-		android:gravity="center_horizontal"        
-		android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/typer_color_green"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
         android:text="@string/preparation"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/typer_color_green" />
 
     <ProgressBar
         android:id="@+id/end_progress"
-        android:layout_below="@+id/end_text"
-		android:layout_marginTop="20dp"
-		android:layout_marginLeft="20dp"
-		android:layout_marginRight="20dp"
-		android:max="100"
-        android:indeterminate="true"
         style="?android:attr/progressBarStyleHorizontal"
-        
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/end_text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:indeterminate="true"
+        android:max="100" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/end_progress"
+        android:layout_marginTop="20dp"
+        android:id="@+id/end_hacked_y"
+        android:baselineAligned="false"
+        android:visibility="invisible"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/try_again_y"
+                android:background="@drawable/button_states"
+                android:textColor="@color/typer_color_green"
+                android:paddingLeft="20dp"
+       			android:paddingRight="20dp"
+        		android:paddingTop="10dp"
+        		android:paddingBottom="10dp"
+                android:text="@string/try_again" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:id="@+id/next_y"
+                android:background="@drawable/button_states"
+                android:textColor="@color/typer_color_green"
+                android:paddingLeft="20dp"
+       			android:paddingRight="20dp"
+        		android:paddingTop="10dp"
+        		android:paddingBottom="10dp"
+                android:text="@string/next" />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/end_progress"
+        android:layout_marginTop="20dp"
+        android:id="@+id/end_hacked_n"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        android:weightSum="2" >
+        
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:id="@+id/try_again_n"
+                android:background="@drawable/button_states"
+                android:textColor="@color/typer_color_green"
+                android:paddingLeft="20dp"
+       			android:paddingRight="20dp"
+        		android:paddingTop="10dp"
+        		android:paddingBottom="10dp"
+                android:text="@string/try_again" />
+
+    </LinearLayout>
 
 </RelativeLayout>

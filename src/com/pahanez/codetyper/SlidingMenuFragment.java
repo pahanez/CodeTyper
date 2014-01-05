@@ -29,12 +29,12 @@ import com.pahanez.codertyper.R;
 public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	private ListView mList;
-	private SlidingMenuInitializedListener mInitListener;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		android.util.Log.e("p37td8", "SlidingMenuFragment onCreateView");
+		setRetainInstance(true);
 		return inflater.inflate(R.layout.menu_layout, null);
 	}
 
@@ -115,8 +115,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			}
 		});
 		super.onViewCreated(view, savedInstanceState);
-		if(mInitListener != null) mInitListener.slidingMenuInitialized();
-			
 	}
 
 	private List<MenuItem> initMenuData() {
@@ -194,14 +192,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	public void setList(ListView mList) {
 		android.util.Log.e("p37td8", "mList	" + mList);
 		this.mList = mList;
-	}
-
-	public SlidingMenuInitializedListener getInitListener() {
-		return mInitListener;
-	}
-
-	public void setInitListener(SlidingMenuInitializedListener mInitListener) {
-		this.mInitListener = mInitListener;
 	}
 
 	public final static class TyperMenuAdaper extends BaseAdapter{

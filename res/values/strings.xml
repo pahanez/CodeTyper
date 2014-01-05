@@ -14,6 +14,8 @@
     <string name="you_was_catched">You was catched! Try again!</string>
     <string name="dialog_choose_speed">Choose typer speed</string>
     <string name="ok">Ok</string>
+    <string name="try_again">Try Again</string>
+    <string name="next">Next</string>
     <string name="typer_speed">Speed</string>
     <string name="typer_color">Color</string>
     <string name="initial_text">__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________</string>

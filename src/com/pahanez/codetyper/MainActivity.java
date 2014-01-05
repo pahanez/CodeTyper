@@ -1,5 +1,6 @@
 package com.pahanez.codetyper;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -42,6 +43,13 @@ public class MainActivity extends FragmentActivity {
 	
 	public SlidingMenu getMenu(){
 		return mMenu;
+	}
+	
+	//android:configChanges="orientation|keyboardHidden|screenSize"
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		android.util.Log.e("p37td8", "!!!!!activity conf changed : ");
 	}
 
 	
