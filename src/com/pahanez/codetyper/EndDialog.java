@@ -131,7 +131,11 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 				dismiss();
 				mDialogHelper.restart();
 			break;
-
+		case R.id.next_y:
+			if(mDialogHelper != null)
+				dismiss();
+				mDialogHelper.next();
+			break;
 		default:
 			break;
 		}

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import android.R.array;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -199,6 +200,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 	@Override
 	public void sourceChanged(String id) {
+		Settings.getInstance().setSourceId(id);
 		try {
 			mSourceId = id;
 			InputStream stream = 
@@ -240,14 +242,18 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	}
 
 	@Override
-	public void restart() {
+	public void restart() { 
 		sourceChanged(mSourceId);
 	}
 
 	@Override
 	public void next() {
-		// TODO Auto-generated method stub
-		
+		String [] arrays = getResources().getStringArray(R.array.source_names);
+		for(int i = 0; i < arrays.length; i++){
+			
+			if(arrays[i].equals(mSourceId) && i != (arrays.length - 1))
+				sourceChanged(arrays[i+1]);
+		}
 	}
 
 }

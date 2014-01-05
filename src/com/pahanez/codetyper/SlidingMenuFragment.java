@@ -58,7 +58,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 					Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
 					if (fragment instanceof ContentTyper)
 						((ContentTyper)fragment).sourceChanged((String)view.getTag());
-					Settings.getInstance().setSourceId((String)view.getTag());
 					break;
 				case TyperMenuAdaper.SPEED_ITEM:
 						final Dialog d = new Dialog(getActivity(), R.style.Theme_CustomDialog);
