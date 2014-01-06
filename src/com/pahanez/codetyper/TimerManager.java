@@ -49,12 +49,6 @@ public class TimerManager {
 					if(menu.getList() != null)
 						pb = ((SlidingMenuFragment.TyperMenuAdaper)menu.getList().getAdapter()).getmProgressBar();
 					android.util.Log.e("p37td8", "getPBar == null");
-					try {
-						TimeUnit.MILLISECONDS.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}	
 				}
 				if(pb != null)
 				getProgressBar().post(new Runnable() {

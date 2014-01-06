@@ -2,6 +2,7 @@ package com.pahanez.codetyper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -27,7 +28,7 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 	private ViewGroup mHackedYButtons;
 	private ViewGroup mHackedNButtons;
 	private Button mAgainY,mAgainN,mNext;
-	final private Animation fadein ;
+	final private Animation mFadein , mAccess;
 	private final ProgressBar mPB;
 	private int mProgress;
 	private boolean mHacked;
@@ -46,26 +47,28 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 					}
 					else{
 						mTextView.setText(title+".");
-						sendEmptyMessageDelayed(UPDATE_TITLE, 1000);
+						sendEmptyMessageDelayed(UPDATE_TITLE, 600);
 					}
 				break;
 			case UPDATE_PROGRESS:
 					mPB.setProgress(mProgress++);
 					if(mProgress!=101)
-						sendEmptyMessageDelayed(UPDATE_PROGRESS, 100);
+						sendEmptyMessageDelayed(UPDATE_PROGRESS, 10);
 					else{
 						
 						setCancelable(true);
 						if(mHacked){
-							mTextView.startAnimation(fadein);
-							mTextView.setText("Congratulations!\nYou hacked NASA.");
-							fadein.setAnimationListener(new CustomAnimationListener(mHackedYButtons));
-							mHackedYButtons.startAnimation(fadein);
+							mTextView.setText(getContext().getString(R.string.access_granted));
+							mTextView.startAnimation(mAccess);
+							mFadein.setAnimationListener(new CustomAnimationListener(mHackedYButtons));
+							mHackedYButtons.startAnimation(mFadein);
 						}
 						else{
-							mTextView.setText("Bad News!\nYou was catched.");
-							fadein.setAnimationListener(new CustomAnimationListener(mHackedNButtons));
-							mHackedNButtons.startAnimation(fadein);							
+							mTextView.setText(CodeTyperApplication.getAppContext().getString(R.string.access_denied));
+							mTextView.setTextColor(Color.RED);
+							mTextView.startAnimation(mAccess);
+							mFadein.setAnimationListener(new CustomAnimationListener(mHackedNButtons));
+							mHackedNButtons.startAnimation(mFadein);							
 						}
 					}
 				break;
@@ -91,7 +94,8 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 		mAgainY.setOnClickListener(this);
 		mNext.setOnClickListener(this);
 		mHacked = hacked;
-		fadein	= AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+		mFadein	= AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+		mAccess = AnimationUtils.loadAnimation(getContext(), R.anim.access_animation);
 		mDialogHelper = dialogHelper;
 		
 		

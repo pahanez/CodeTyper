@@ -1,0 +1,27 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle" >
+            <corners android:radius="25dip" />
+
+            <gradient
+                android:centerColor="@android:color/black"
+                android:endColor="@android:color/black"
+                android:gradientRadius="200"
+                android:startColor="@android:color/black"
+                android:type="radial" />
+        </shape>
+    </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+        <bitmap
+            android:src="@drawable/seek_bg"
+            android:tileMode="repeat"
+            android:antialias="true"
+            android:dither="false"
+            android:filter="false"
+            android:gravity="left"
+        />
+        </clip>
+    </item>
+</layer-list>

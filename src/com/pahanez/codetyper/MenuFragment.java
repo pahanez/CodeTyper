@@ -49,7 +49,7 @@ public class MenuFragment extends Fragment{
 			}
 		});
 		
-		mTitleAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.title_animation);
+		mTitleAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.access_animation);
 		mTitleAnimation.setAnimationListener(new AnimationListener() {
 			
 			@Override

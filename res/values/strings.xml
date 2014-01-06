@@ -16,6 +16,8 @@
     <string name="ok">Ok</string>
     <string name="try_again">Try Again</string>
     <string name="next">Next</string>
+    <string name="access_denied">ACCESS_DENIED</string>
+    <string name="access_granted">ACCESS_GRANTED</string>
     <string name="typer_speed">Speed</string>
     <string name="typer_color">Color</string>
     <string name="initial_text">__________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________</string>

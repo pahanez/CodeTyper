@@ -9,7 +9,7 @@ package com.pahanez.codertyper;
 
 public final class R {
     public static final class anim {
-        public static final int title_animation=0x7f040000;
+        public static final int access_animation=0x7f040000;
     }
     public static final class array {
         public static final int extra_source_names=0x7f0a0000;
@@ -151,25 +151,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int slidingmenu_offset=0x7f06000b;
     }
     public static final class drawable {
-        public static final int ambilwarna_arrow_down=0x7f020000;
-        public static final int ambilwarna_arrow_right=0x7f020001;
-        public static final int ambilwarna_cursor=0x7f020002;
-        public static final int ambilwarna_hue=0x7f020003;
-        public static final int ambilwarna_target=0x7f020004;
-        public static final int button_background_pressed=0x7f020005;
-        public static final int button_background_unpressed=0x7f020006;
-        public static final int button_states=0x7f020007;
-        public static final int dialog_background=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int list_item_selector=0x7f02000a;
-        public static final int main_menu_background=0x7f02000b;
-        public static final int seed_thumb=0x7f02000c;
-        public static final int seed_thumb_pressed=0x7f02000d;
-        public static final int seed_thumb_unpressed=0x7f02000e;
-        public static final int seek_bg=0x7f02000f;
-        public static final int seek_progress_background=0x7f020010;
-        public static final int title_cursor=0x7f020011;
-        public static final int typer_cursor=0x7f020012;
+        public static final int access_indeterminate_back=0x7f020000;
+        public static final int access_progress_background=0x7f020001;
+        public static final int ambilwarna_arrow_down=0x7f020002;
+        public static final int ambilwarna_arrow_right=0x7f020003;
+        public static final int ambilwarna_cursor=0x7f020004;
+        public static final int ambilwarna_hue=0x7f020005;
+        public static final int ambilwarna_target=0x7f020006;
+        public static final int button_background_pressed=0x7f020007;
+        public static final int button_background_unpressed=0x7f020008;
+        public static final int button_states=0x7f020009;
+        public static final int dialog_background=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int list_item_selector=0x7f02000c;
+        public static final int main_menu_background=0x7f02000d;
+        public static final int seed_thumb=0x7f02000e;
+        public static final int seed_thumb_pressed=0x7f02000f;
+        public static final int seed_thumb_unpressed=0x7f020010;
+        public static final int seek_bg=0x7f020011;
+        public static final int seek_progress_background=0x7f020012;
+        public static final int title_cursor=0x7f020013;
+        public static final int typer_cursor=0x7f020014;
     }
     public static final class id {
         public static final int ambilwarna_btn_no=0x7f09000f;
@@ -230,6 +232,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int typer_layout=0x7f03000f;
     }
     public static final class string {
+        public static final int access_denied=0x7f070015;
+        public static final int access_granted=0x7f070016;
         public static final int app_name=0x7f070004;
         public static final int arrow_content_desc=0x7f070003;
         public static final int color_cancel=0x7f070006;
@@ -238,7 +242,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int dialog_choose_speed=0x7f070011;
         public static final int hue_cursor_content_desc=0x7f070001;
         public static final int hue_view_content_desc=0x7f070000;
-        public static final int initial_text=0x7f070017;
+        public static final int initial_text=0x7f070019;
         public static final int menu_choose_source=0x7f07000d;
         public static final int menu_extra_source=0x7f07000c;
         public static final int menu_progress=0x7f07000e;
@@ -250,9 +254,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int sliding_menu_title=0x7f070008;
         public static final int start_typer_toast=0x7f07000b;
         public static final int try_again=0x7f070013;
-        public static final int typer_color=0x7f070016;
+        public static final int typer_color=0x7f070018;
         public static final int typer_settings=0x7f070007;
-        public static final int typer_speed=0x7f070015;
+        public static final int typer_speed=0x7f070017;
         public static final int you_was_catched=0x7f070010;
     }
     public static final class style {
