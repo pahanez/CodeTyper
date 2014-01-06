@@ -10,6 +10,7 @@ package com.pahanez.codertyper;
 public final class R {
     public static final class anim {
         public static final int access_animation=0x7f040000;
+        public static final int indeterm_pb=0x7f040001;
     }
     public static final class array {
         public static final int extra_source_names=0x7f0a0000;
@@ -165,13 +166,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f02000b;
         public static final int list_item_selector=0x7f02000c;
         public static final int main_menu_background=0x7f02000d;
-        public static final int seed_thumb=0x7f02000e;
-        public static final int seed_thumb_pressed=0x7f02000f;
-        public static final int seed_thumb_unpressed=0x7f020010;
-        public static final int seek_bg=0x7f020011;
-        public static final int seek_progress_background=0x7f020012;
-        public static final int title_cursor=0x7f020013;
-        public static final int typer_cursor=0x7f020014;
+        public static final int progressbar_indeterminate1=0x7f02000e;
+        public static final int progressbar_indeterminate2=0x7f02000f;
+        public static final int progressbar_indeterminate3=0x7f020010;
+        public static final int progressbar_indeterminate4=0x7f020011;
+        public static final int progressbar_indeterminate5=0x7f020012;
+        public static final int progressbar_indeterminate6=0x7f020013;
+        public static final int seed_thumb=0x7f020014;
+        public static final int seed_thumb_pressed=0x7f020015;
+        public static final int seed_thumb_unpressed=0x7f020016;
+        public static final int seek_bg=0x7f020017;
+        public static final int seek_progress_background=0x7f020018;
+        public static final int title_cursor=0x7f020019;
+        public static final int typer_cursor=0x7f02001a;
     }
     public static final class id {
         public static final int ambilwarna_btn_no=0x7f09000f;
@@ -190,28 +197,29 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int end_progress=0x7f090012;
         public static final int end_text=0x7f090011;
         public static final int fullscreen=0x7f090003;
-        public static final int hacker_et=0x7f090025;
-        public static final int hacker_typer_tv=0x7f090024;
+        public static final int hacker_et=0x7f090026;
+        public static final int hacker_typer_tv=0x7f090025;
         public static final int inner_fragment=0x7f090005;
         public static final int left=0x7f090000;
         public static final int main_menu_title=0x7f090018;
         public static final int margin=0x7f090002;
-        public static final int menu_frame=0x7f09001a;
-        public static final int menu_list=0x7f09001b;
-        public static final int menu_start_button=0x7f090019;
+        public static final int menu_frame=0x7f09001b;
+        public static final int menu_list=0x7f09001c;
+        public static final int menu_start_button=0x7f09001a;
         public static final int next_y=0x7f090015;
-        public static final int progress_item=0x7f09001c;
+        public static final int progress_item=0x7f09001d;
         public static final int right=0x7f090001;
         public static final int selected_view=0x7f090004;
-        public static final int separator_tv=0x7f09001d;
-        public static final int slidingmenumain=0x7f090020;
-        public static final int speed_dialog_b=0x7f090023;
-        public static final int speed_dialog_sb=0x7f090022;
-        public static final int speed_tv=0x7f09001e;
-        public static final int speed_value_tv=0x7f09001f;
-        public static final int textView1=0x7f090021;
+        public static final int separator_tv=0x7f09001e;
+        public static final int slidingmenumain=0x7f090021;
+        public static final int speed_dialog_b=0x7f090024;
+        public static final int speed_dialog_sb=0x7f090023;
+        public static final int speed_tv=0x7f09001f;
+        public static final int speed_value_tv=0x7f090020;
+        public static final int textView1=0x7f090022;
         public static final int try_again_n=0x7f090017;
         public static final int try_again_y=0x7f090014;
+        public static final int view1=0x7f090019;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

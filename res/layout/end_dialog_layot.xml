@@ -31,7 +31,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/access_indeterminate_back"
+        android:indeterminateDrawable="@anim/indeterm_pb"
         android:max="100" />
 
     <LinearLayout
