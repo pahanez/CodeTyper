@@ -6,12 +6,13 @@
     <string name="sliding_menu_title">Choose file</string>
     <string name="menu_title">Code Typer ></string>
     <string name="menu_start">Start</string>
-    <string name="start_typer_toast">Type as  fast as you can!</string>
+    <string name="start_typer_toast">Let\'s go!</string>
+    <string name="uploading">Uploading</string>
     <string name="menu_extra_source">Extra source</string>
     <string name="menu_choose_source">Choose source</string>
     <string name="menu_progress">Progress</string>
     <string name="preparation">Preparation</string>
-    <string name="you_was_catched">You was catched! Try again!</string>
+    <string name="you_was_catched">Time is over! Try again!</string>
     <string name="dialog_choose_speed">Choose typer speed</string>
     <string name="ok">Ok</string>
     <string name="try_again">Try Again</string>
@@ -33,7 +34,13 @@
         <item>1. C | Linux - netlink.c</item>
         <item>2. Ruby | RoR - helpers.rb</item>
         <item>3. C++ | Cocos2dx - UIImageView.cpp</item>
-        <item>Linux - proc.c</item>
+        <item>4. C# | Mono - LinkContext.cs</item>
+        <item>5. Java | LibGDX - Camera.java</item>
+        <item>6. JavaScript | JQuerry - css.js</item>
+        <item>7. Obj C | RestKit - RKEntityMapping.m</item>
+        <item>8. PHP | Zend - Request.php</item>
+        <item>9. C++ | Bitcoin - key.cpp</item>
+        <item>10. C | Git - merge.c</item>
     </string-array>
 
 </resources>

@@ -1,5 +1,8 @@
 package com.pahanez.codetyper;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -9,6 +12,9 @@ class Settings {
 	private SharedPreferences sp;
 	private static Settings sInstance;
 	private final String [] mData;
+	private static final Set<String> DEFAULT_COMPLETE = new HashSet<String>(){{
+		add("0");
+	}};
 	
 	private Settings(){
 		
@@ -43,5 +49,22 @@ class Settings {
 	public void setColor(int color){
 		sp.edit().putInt(Constants.COLOR, color).commit();
 	}
+	
+	public void addLevelComplete(int pos){
+		String position = String.valueOf(pos);
+		Set<String> levels_complete = sp.getStringSet(Constants.COMPLETE_LEVELS, DEFAULT_COMPLETE);
+		levels_complete.add(position);
+		android.util.Log.e("p37td8", "+++ " +position);
+		sp.edit().putStringSet(Constants.COMPLETE_LEVELS, levels_complete).commit();
+	}
+	
+	public boolean isAvailable(int pos){
+		String position = String.valueOf(pos);
+		Set<String> levels_complete = sp.getStringSet(Constants.COMPLETE_LEVELS, DEFAULT_COMPLETE);
+		android.util.Log.e("p37td8", " ++ " + levels_complete.contains(position));
+		return levels_complete.contains(position);
+	}
+	
+	
 	
 }

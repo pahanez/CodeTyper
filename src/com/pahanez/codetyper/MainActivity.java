@@ -45,12 +45,4 @@ public class MainActivity extends FragmentActivity {
 		return mMenu;
 	}
 	
-	//android:configChanges="orientation|keyboardHidden|screenSize"
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		android.util.Log.e("p37td8", "!!!!!activity conf changed : ");
-	}
-
-	
 }

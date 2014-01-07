@@ -33,7 +33,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		android.util.Log.e("p37td8", "SlidingMenuFragment onCreateView");
 		setRetainInstance(true);
 		return inflater.inflate(R.layout.menu_layout, null);
 	}
@@ -43,7 +42,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		
 		
 		mList = (ListView) view.findViewById(R.id.menu_list);
-		android.util.Log.e("p37td8", "post setList" + mList);
 		getList().setAdapter(new TyperMenuAdaper(initMenuData() , getLayoutInflater(savedInstanceState)));
 		
 		getList().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -119,8 +117,10 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	private List<MenuItem> initMenuData() {
 		List<MenuItem> menuList = new ArrayList<MenuItem>();
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.menu_choose_source)));
-		for(String name : getResources().getStringArray(R.array.source_names))
-			menuList.add(new MenuItem.SourceItem(name));
+		String [] source_names = getResources().getStringArray(R.array.source_names);
+		for (int i = 0; i < source_names.length; i++) {
+			menuList.add(new MenuItem.SourceItem(source_names[i] , i));
+		}
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.menu_extra_source)));
 		for(String name : getResources().getStringArray(R.array.extra_source_names))
 			menuList.add(new MenuItem.ExtraSourceItem(name));
@@ -135,7 +135,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 
 	@Override
 	public void onOpened() {
-		android.util.Log.e("p37td8", "mList " + mList);
 		for (int i = 0; i < getList().getAdapter().getCount(); i++) {
 			if((((MenuItem)getList().getAdapter().getItem(i)).mName).equals(Settings.getInstance().getSourceId())){
 					getList().setItemChecked(i, true);
@@ -162,9 +161,10 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				super(name);
 			}}
 		private static final class SourceItem extends MenuItem{
-
-			public SourceItem(String name) {
+			private int mPosition = -1;
+			public SourceItem(String name , int position) {
 				super(name);
+				mPosition = position;
 			}}
 		private static final class SpeedItem extends MenuItem{
 
@@ -189,7 +189,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 	}
 
 	public void setList(ListView mList) {
-		android.util.Log.e("p37td8", "mList	" + mList);
 		this.mList = mList;
 	}
 
@@ -227,8 +226,14 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		
 		@Override
 		public boolean isEnabled(int position) {
+			if(mItems.get(position) instanceof MenuItem.SourceItem){
+				MenuItem.SourceItem source_item = (MenuItem.SourceItem)mItems.get(position);
+				android.util.Log.e("p37td8", " + " + source_item.mName + " , " + source_item.mPosition);
+				return Settings.getInstance().isAvailable(source_item.mPosition);
+			}
+				
 			
-			return !(mItems.get(position) instanceof MenuItem.SeparatorItem);
+			return !(mItems.get(position) instanceof MenuItem.SeparatorItem || mItems.get(position) instanceof MenuItem.ProgressItem);
 		}
 
 		@Override
@@ -245,6 +250,9 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView = mInflater.inflate(R.layout.sliding_menu_item, null);
 				((CheckedTextView)convertView.findViewById(android.R.id.text1)).setText(item.mName);
 				convertView.setTag(item.mName);
+				if(item instanceof MenuItem.SourceItem){
+					((CheckedTextView)convertView.findViewById(android.R.id.text1)).setEnabled(Settings.getInstance().isAvailable(((MenuItem.SourceItem)item).mPosition));
+				}
 				break;
 			case SPEED_ITEM:
 				convertView = mInflater.inflate(R.layout.sliding_menu_speed, null);
@@ -266,8 +274,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView = mInflater.inflate(R.layout.progress_item, null);
 				mProgressBar = ((ProgressBar)convertView.findViewById(R.id.progress_item));
 				mProgressBar.setProgress(progress);
-				android.util.Log.e("p37td8", "mProgBar :: " + mProgressBar);
-				android.util.Log.e("p37td8", "mProgressBarChangedListener : " + mProgressBarChangedListener);
 				if(mProgressBarChangedListener != null) mProgressBarChangedListener.onProgressBarChanged(mProgressBar);
 				break;
 			}
@@ -300,7 +306,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		public void setProgressBarChangedListener(
 				OnProgressBarChangedListener mProgressBarChangedListener) {
 			this.mProgressBarChangedListener = mProgressBarChangedListener;
-			android.util.Log.e("p37td8", "setProgressBarChangedListener : " + mProgressBarChangedListener);
 		}
 		
 		public ProgressBar getmProgressBar() {

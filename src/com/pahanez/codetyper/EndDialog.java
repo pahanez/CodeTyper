@@ -33,6 +33,7 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 	private int mProgress;
 	private boolean mHacked;
 	private DialogHelper mDialogHelper;
+	private String mSourceId;
 	
 	private Handler mHandler = new Handler(){
 		@Override
@@ -41,7 +42,7 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 			case UPDATE_TITLE:
 					String title = mTextView.getText().toString();
 					if(title.contains("....")){
-						mTextView.setText("Uploading");
+						mTextView.setText(getContext().getString(R.string.uploading));
 						mPB.setIndeterminate(false);
 						sendEmptyMessage(UPDATE_PROGRESS);
 					}
@@ -62,6 +63,9 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 							mTextView.startAnimation(mAccess);
 							mFadein.setAnimationListener(new CustomAnimationListener(mHackedYButtons));
 							mHackedYButtons.startAnimation(mFadein);
+							Utils.updateAvailables(mSourceId);
+							if(Utils.isLastOne(mSourceId))
+								mNext.setVisibility(View.GONE);
 						}
 						else{
 							mTextView.setText(CodeTyperApplication.getAppContext().getString(R.string.access_denied));
@@ -79,7 +83,7 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 		}
 	};
 	
-	public EndDialog(Context context, int theme , boolean hacked, DialogHelper dialogHelper) {
+	public EndDialog(Context context, int theme , boolean hacked, DialogHelper dialogHelper , String sourceId) {
 		super(context, theme);
 		setContentView(R.layout.end_dialog_layot);
 		mTextView = (TextView) findViewById(R.id.end_text);
@@ -97,8 +101,7 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 		mFadein	= AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 		mAccess = AnimationUtils.loadAnimation(getContext(), R.anim.access_animation);
 		mDialogHelper = dialogHelper;
-		
-		
+		mSourceId = sourceId;
 		
 	}
 	

@@ -48,7 +48,6 @@ public class TimerManager {
 					SlidingMenuFragment menu = (SlidingMenuFragment)mActivity.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
 					if(menu.getList() != null)
 						pb = ((SlidingMenuFragment.TyperMenuAdaper)menu.getList().getAdapter()).getmProgressBar();
-					android.util.Log.e("p37td8", "getPBar == null");
 				}
 				if(pb != null)
 				getProgressBar().post(new Runnable() {
@@ -74,7 +73,7 @@ public class TimerManager {
 					getProgressBar().setProgress(0);
 				}
 			}
-			if(!isCancelled()){
+			if(!isCancelled() && Utils.shouldStart(mFileName)){
 				mActivity.runOnUiThread(new Runnable() {
 					
 					@Override

@@ -130,10 +130,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int viewBehind=0x7f010002;
     }
     public static final class color {
+        public static final int menu_items_selector=0x7f050005;
         public static final int new_color=0x7f050001;
         public static final int prev_color=0x7f050000;
         public static final int typer_color_green=0x7f050002;
-        public static final int typer_start_button_pressed=0x7f050003;
+        public static final int typer_color_green_disabled=0x7f050003;
+        public static final int typer_start_button_pressed=0x7f050004;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -192,34 +194,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ambilwarna_warnaBaru=0x7f09000d;
         public static final int ambilwarna_warnaLama=0x7f09000c;
         public static final int btn_content=0x7f09000e;
-        public static final int end_hacked_n=0x7f090016;
+        public static final int end_hacked_n=0x7f090017;
         public static final int end_hacked_y=0x7f090013;
         public static final int end_progress=0x7f090012;
         public static final int end_text=0x7f090011;
         public static final int fullscreen=0x7f090003;
-        public static final int hacker_et=0x7f090026;
-        public static final int hacker_typer_tv=0x7f090025;
+        public static final int hacker_et=0x7f090027;
+        public static final int hacker_typer_tv=0x7f090026;
         public static final int inner_fragment=0x7f090005;
         public static final int left=0x7f090000;
-        public static final int main_menu_title=0x7f090018;
+        public static final int main_menu_title=0x7f090019;
         public static final int margin=0x7f090002;
-        public static final int menu_frame=0x7f09001b;
-        public static final int menu_list=0x7f09001c;
-        public static final int menu_start_button=0x7f09001a;
-        public static final int next_y=0x7f090015;
-        public static final int progress_item=0x7f09001d;
+        public static final int menu_frame=0x7f09001c;
+        public static final int menu_list=0x7f09001d;
+        public static final int menu_start_button=0x7f09001b;
+        public static final int next_layout=0x7f090015;
+        public static final int next_y=0x7f090016;
+        public static final int progress_item=0x7f09001e;
         public static final int right=0x7f090001;
         public static final int selected_view=0x7f090004;
-        public static final int separator_tv=0x7f09001e;
-        public static final int slidingmenumain=0x7f090021;
-        public static final int speed_dialog_b=0x7f090024;
-        public static final int speed_dialog_sb=0x7f090023;
-        public static final int speed_tv=0x7f09001f;
-        public static final int speed_value_tv=0x7f090020;
-        public static final int textView1=0x7f090022;
-        public static final int try_again_n=0x7f090017;
+        public static final int separator_tv=0x7f09001f;
+        public static final int slidingmenumain=0x7f090022;
+        public static final int speed_dialog_b=0x7f090025;
+        public static final int speed_dialog_sb=0x7f090024;
+        public static final int speed_tv=0x7f090020;
+        public static final int speed_value_tv=0x7f090021;
+        public static final int textView1=0x7f090023;
+        public static final int try_again_n=0x7f090018;
         public static final int try_again_y=0x7f090014;
-        public static final int view1=0x7f090019;
+        public static final int view1=0x7f09001a;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -240,32 +243,33 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int typer_layout=0x7f03000f;
     }
     public static final class string {
-        public static final int access_denied=0x7f070015;
-        public static final int access_granted=0x7f070016;
+        public static final int access_denied=0x7f070016;
+        public static final int access_granted=0x7f070017;
         public static final int app_name=0x7f070004;
         public static final int arrow_content_desc=0x7f070003;
         public static final int color_cancel=0x7f070006;
         public static final int color_ok=0x7f070005;
         public static final int color_picker_content_desc=0x7f070002;
-        public static final int dialog_choose_speed=0x7f070011;
+        public static final int dialog_choose_speed=0x7f070012;
         public static final int hue_cursor_content_desc=0x7f070001;
         public static final int hue_view_content_desc=0x7f070000;
-        public static final int initial_text=0x7f070019;
-        public static final int menu_choose_source=0x7f07000d;
-        public static final int menu_extra_source=0x7f07000c;
-        public static final int menu_progress=0x7f07000e;
+        public static final int initial_text=0x7f07001a;
+        public static final int menu_choose_source=0x7f07000e;
+        public static final int menu_extra_source=0x7f07000d;
+        public static final int menu_progress=0x7f07000f;
         public static final int menu_start=0x7f07000a;
         public static final int menu_title=0x7f070009;
-        public static final int next=0x7f070014;
-        public static final int ok=0x7f070012;
-        public static final int preparation=0x7f07000f;
+        public static final int next=0x7f070015;
+        public static final int ok=0x7f070013;
+        public static final int preparation=0x7f070010;
         public static final int sliding_menu_title=0x7f070008;
         public static final int start_typer_toast=0x7f07000b;
-        public static final int try_again=0x7f070013;
-        public static final int typer_color=0x7f070018;
+        public static final int try_again=0x7f070014;
+        public static final int typer_color=0x7f070019;
         public static final int typer_settings=0x7f070007;
-        public static final int typer_speed=0x7f070017;
-        public static final int you_was_catched=0x7f070010;
+        public static final int typer_speed=0x7f070018;
+        public static final int uploading=0x7f07000c;
+        public static final int you_was_catched=0x7f070011;
     }
     public static final class style {
         /** 

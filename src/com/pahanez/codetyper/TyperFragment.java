@@ -41,7 +41,12 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	private String mSourceId;
 	private int mFileSize;
 	private Dialog mEndDialog;
-	
+	private boolean mEOF = false;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		((MainActivity)getActivity()).getMenu().setSlidingEnabled(true);
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -124,7 +129,8 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				mHackerView.append(new String(chars));
+				if(!mEOF)
+					mHackerView.append(new String(chars));
 			}
 
 			@Override
@@ -136,7 +142,6 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 			@Override
 			public void afterTextChanged(Editable s) {
 				if((mCount - mHackerViewHidden.getText().length()) == 1){
-					android.util.Log.e("p37td8", "del happened" + mSkip);
 					if(mHackerView.getText().length() >= chars.length * 2){
 						mHackerView.setText(mHackerView.getText().subSequence(0, mHackerView.getText().length() - chars.length * 2));
 						mSkip -= chars.length * 2;
@@ -155,13 +160,14 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 				if(mUpdater !=null && !Utils.shouldStart(mSourceId))
 					mUpdater.setExtraProgress(mSkip);
 				mHackerView.setSelection(mHackerView.getText().length());
-				if(mSkip > 200){
-					mEndDialog = new EndDialog(getActivity() , R.style.Theme_CustomDialog , !mUpdater.isCatched() , TyperFragment.this);
+				android.util.Log.e("p37td8", "skip " + mSkip + " size " + mFileSize);
+				if(mSkip + chars.length >= mFileSize && Utils.shouldStart(mSourceId)){ 
+					mUpdater.setCancelled(true);
+					mEndDialog = new EndDialog(getActivity() , R.style.Theme_CustomDialog , !mUpdater.isCatched() , TyperFragment.this , mSourceId);
 					mEndDialog.setCancelable(false);
 					mEndDialog.show();
+					mEOF = true;
 				}
-//					getFragmentManager().beginTransaction().add(new EndDialog(), "end_dialog").commit();
-				android.util.Log.e("p37td8", "" + (mSkip + chars.length)+ " , " + mFileSize + " , " + ((mSkip +chars.length) > mFileSize));
 			}
 		});
 
@@ -184,7 +190,6 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		SlidingMenuFragment menu = (SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame);
 		if(menu.getList() != null)
 			pb = ((SlidingMenuFragment.TyperMenuAdaper)menu.getList().getAdapter()).getmProgressBar();
-		android.util.Log.e("p37td8", "!_! conf Changed" + pb); 
 		mUpdater.setProgressBar(pb);
 	}
 
@@ -201,7 +206,9 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 	@Override
 	public void sourceChanged(String id) {
 		Settings.getInstance().setSourceId(id);
+		mEOF = false;
 		try {
+			android.util.Log.e("p37td8", "id :: " + id);
 			mSourceId = id;
 			InputStream stream = 
 					getActivity().getAssets().open(id);
@@ -210,7 +217,6 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 			if(mUpdater != null)mUpdater.setCancelled(true);
 
-			android.util.Log.e("p37td8", "if :	 " + stream.available());
 			mFileSize = stream.available();
 			mUpdater = new Updater(getActivity() , mFileSize , id);
 			TimerManager.sSerialExecutor.execute(mUpdater);
@@ -236,7 +242,6 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 	@Override
 	public void onProgressBarChanged(ProgressBar pb) {
-		android.util.Log.e("p37td8", "onProgressBarChanged pb" + pb);
 		if(mUpdater != null)
 			mUpdater.setProgressBar(pb);
 	}
@@ -251,8 +256,10 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		String [] arrays = getResources().getStringArray(R.array.source_names);
 		for(int i = 0; i < arrays.length; i++){
 			
-			if(arrays[i].equals(mSourceId) && i != (arrays.length - 1))
+			if(arrays[i].equals(mSourceId) && i != (arrays.length - 1)){
 				sourceChanged(arrays[i+1]);
+				break;
+			}
 		}
 	}
 

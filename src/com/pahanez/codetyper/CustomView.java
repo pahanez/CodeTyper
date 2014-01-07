@@ -47,7 +47,6 @@ public class CustomView extends View{ // DEL TODO
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-//		android.util.Log.e("p37td8", "customFrameLay");
 		
 		mHandler.postDelayed(mUpdater, 1000/25);
 		super.onDraw(canvas);

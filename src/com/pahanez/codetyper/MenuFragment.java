@@ -25,6 +25,7 @@ public class MenuFragment extends Fragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		adjustAnimations();
+		((MainActivity)getActivity()).getMenu().setSlidingEnabled(false);
 	}
 	
 	private void adjustAnimations() {

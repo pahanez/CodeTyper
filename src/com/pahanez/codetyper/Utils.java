@@ -43,4 +43,26 @@ public class Utils {
 			if(name.equals(extra_name)) return false;
 		return true;
 	}
+
+	public static void updateAvailables(String mSourceId) {
+		String [] source_names = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.source_names);
+			for(int i = 0; i < source_names.length; i++)
+			if(source_names[i].equals(mSourceId)){
+				Settings.getInstance().addLevelComplete(i+1);
+				break;
+			}
+	}
+	
+	public static boolean isLastOne(String sourceId){
+		String [] source_names = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.source_names);
+		
+		for(int i = 0; i < source_names.length; i++){
+			if(source_names[i].equals(sourceId)){
+					if(i == (source_names.length-1))
+						return true;
+				return false;
+			}
+		}
+		return false;
+	}
 }
