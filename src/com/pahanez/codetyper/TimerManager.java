@@ -29,18 +29,20 @@ public class TimerManager {
 		private String mFileName;
 		private boolean mCatched = false;
 		private FragmentActivity mActivity;
+		private int mId;
 		public Updater(FragmentActivity activity,int fileSize , String fileName){
 			this.setProgressBar(pb);
 			mDelay = fileSize / 10;
 			mFileName = fileName;
 			mFileSize = fileSize;
 			mActivity = activity;
+			mId = Utils.getId(fileName);
 		}
 
 		@Override
 		public void run() {
 			
-			for(int i = 0; i <= 100; i++){
+			for(int i = 100; i >= 00; i--){
 				if(!isCancelled() && Utils.shouldStart(mFileName)){
 					
 				final int k = i;
@@ -60,7 +62,8 @@ public class TimerManager {
 				
 				
 				try {
-					TimeUnit.MILLISECONDS.sleep(mDelay);
+					android.util.Log.e("p37td8", "id :" + mId);
+					TimeUnit.MILLISECONDS.sleep(mDelay*7/mId);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -70,7 +73,7 @@ public class TimerManager {
 				
 				}else{
 					if(pb!=null)
-					getProgressBar().setProgress(0);
+					getProgressBar().setProgress(100);
 				}
 			}
 			if(!isCancelled() && Utils.shouldStart(mFileName)){

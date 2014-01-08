@@ -65,4 +65,14 @@ public class Utils {
 		}
 		return false;
 	}
+	public static int getId(String sourceId){
+		String [] source_names = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.source_names);
+		
+		for(int i = 0; i < source_names.length; i++){
+			if(source_names[i].equals(sourceId)){
+						return i+1;
+			}
+		}
+		return -1;
+	}
 }
