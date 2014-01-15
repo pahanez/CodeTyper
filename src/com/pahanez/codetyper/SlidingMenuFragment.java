@@ -83,6 +83,34 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 						
 						d.show();
 					break;
+				case TyperMenuAdaper.SIZE_ITEM:
+					final Dialog sd = new Dialog(getActivity(), R.style.Theme_CustomDialog);
+					sd.setCanceledOnTouchOutside(true);
+					sd.setContentView(R.layout.speed_dialog_layout);
+					
+					
+					
+					final Button sizeButton = (Button) sd.findViewById(R.id.speed_dialog_b);
+					final SeekBar ssb = (SeekBar) sd.findViewById(R.id.speed_dialog_sb);
+					ssb.setMax(39);
+					ssb.setProgress(Settings.getInstance().getTextSize());
+					
+					sizeButton.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						
+						public void onClick(View v) {
+							int progress = ssb.getProgress();
+							Settings.getInstance().setTextSize(progress + 1);
+							Fragment fragment = getFragmentManager().findFragmentById(R.id.inner_fragment);
+							if (fragment instanceof ContentTyper)
+								((ContentTyper)fragment).setTextSize(progress + 1);
+							sd.dismiss();
+						}
+					});
+					
+					sd.show();
+				break;
 				case TyperMenuAdaper.COLOR_ITEM:
 				    OnAmbilWarnaListener onAmbilWarnaListener = new OnAmbilWarnaListener() {
 				        @Override
@@ -127,6 +155,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.typer_settings)));
 		menuList.add(new MenuItem.SpeedItem(getString(R.string.typer_speed)));
 		menuList.add(new MenuItem.ColorItem(getString(R.string.typer_color)));
+		menuList.add(new MenuItem.SizeItem(getString(R.string.text_size)));
 		menuList.add(new MenuItem.SeparatorItem(getString(R.string.menu_progress)));
 		menuList.add(new MenuItem.ProgressItem(null));
 		return menuList;
@@ -181,6 +210,11 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			public ProgressItem(String name) {
 				super(name);
 			}}
+		private static final class SizeItem extends MenuItem{
+
+			public SizeItem(String name) {
+				super(name);
+			}}
 		
 	}
 	
@@ -207,6 +241,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		private static final int SPEED_ITEM 		= 2;
 		private static final int COLOR_ITEM 		= 3;
 		private static final int PROGRESS_ITEM 		= 4;
+		private static final int SIZE_ITEM 		= 5;
 		
 		
 		@Override
@@ -228,7 +263,6 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 		public boolean isEnabled(int position) {
 			if(mItems.get(position) instanceof MenuItem.SourceItem){
 				MenuItem.SourceItem source_item = (MenuItem.SourceItem)mItems.get(position);
-				android.util.Log.e("p37td8", " + " + source_item.mName + " , " + source_item.mPosition);
 				return Settings.getInstance().isAvailable(source_item.mPosition);
 			}
 				
@@ -247,7 +281,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView.setClickable(false);
 				break;
 			case SOURCE_ITEM:
-				convertView = mInflater.inflate(R.layout.sliding_menu_item, null);
+				convertView = mInflater.inflate(R.layout.sliding_menu_separator, null);
 				((CheckedTextView)convertView.findViewById(android.R.id.text1)).setText(item.mName);
 				convertView.setTag(item.mName);
 				if(item instanceof MenuItem.SourceItem){
@@ -258,6 +292,12 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView = mInflater.inflate(R.layout.sliding_menu_speed, null);
 				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
 				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText(String.valueOf(Settings.getInstance().getSpeed() + 1));
+				convertView.setTag(item.mName);
+				break;
+			case SIZE_ITEM:
+				convertView = mInflater.inflate(R.layout.sliding_menu_speed, null);
+				((TextView)convertView.findViewById(R.id.speed_tv)).setText(item.mName);
+				((TextView)convertView.findViewById(R.id.speed_value_tv)).setText(String.valueOf(Settings.getInstance().getTextSize()));
 				convertView.setTag(item.mName);
 				break;
 			case COLOR_ITEM:
@@ -273,7 +313,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 					progress = mProgressBar.getProgress();
 				convertView = mInflater.inflate(R.layout.progress_item, null);
 				mProgressBar = ((ProgressBar)convertView.findViewById(R.id.progress_item));
-				mProgressBar.setProgress(progress);
+				if(progress!=0)mProgressBar.setProgress(progress);
 				if(mProgressBarChangedListener != null) mProgressBarChangedListener.onProgressBarChanged(mProgressBar);
 				break;
 			}
@@ -290,6 +330,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 			else if (item instanceof MenuItem.SpeedItem) return SPEED_ITEM;
 			else if (item instanceof MenuItem.ColorItem) return COLOR_ITEM;
 			else if (item instanceof MenuItem.ProgressItem) return PROGRESS_ITEM;
+			else if (item instanceof MenuItem.SizeItem) return SIZE_ITEM;
 			throw new IllegalStateException("Something wrong!");
 		}
 		

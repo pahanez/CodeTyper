@@ -14,6 +14,7 @@ import com.pahanez.codertyper.R;
 public class TimerManager {
 	private TimerManager(){}
 	private static TimerManager sInstance;
+	private static int pr = 0;
 	public static Executor sSerialExecutor = AsyncTask.SERIAL_EXECUTOR;
 	
 	
@@ -44,7 +45,7 @@ public class TimerManager {
 			
 			for(int i = 100; i >= 00; i--){
 				if(!isCancelled() && Utils.shouldStart(mFileName)){
-					
+				pr = i;
 				final int k = i;
 				if(pb == null){
 					SlidingMenuFragment menu = (SlidingMenuFragment)mActivity.getSupportFragmentManager().findFragmentById(R.id.menu_frame);
@@ -62,7 +63,6 @@ public class TimerManager {
 				
 				
 				try {
-					android.util.Log.e("p37td8", "id :" + mId);
 					TimeUnit.MILLISECONDS.sleep(mDelay*7/mId);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -99,6 +99,10 @@ public class TimerManager {
 
 		public void setProgressBar(ProgressBar pb) {
 			this.pb = pb;
+			if (pb!=null && Utils.shouldStart(mFileName)) {
+				android.util.Log.e("p37td8", "setProgress");
+				pb.setProgress(pr);
+			}
 		}
 
 		public boolean isCancelled() {

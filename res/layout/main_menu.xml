@@ -40,4 +40,5 @@
         android:textColor="@color/typer_color_green" >
     </Button>
 
+
 </RelativeLayout>

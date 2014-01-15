@@ -1,5 +1,6 @@
 package com.pahanez.codetyper;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -35,6 +36,7 @@ public class EndDialog extends Dialog implements android.view.View.OnClickListen
 	private DialogHelper mDialogHelper;
 	private String mSourceId;
 	
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {

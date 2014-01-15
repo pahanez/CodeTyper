@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import android.R.array;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -66,7 +64,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		mHackerView = (FocusedEditText) view.findViewById(R.id.hacker_typer_tv);
 		mHackerViewHidden = (EditText) view.findViewById(R.id.hacker_et);
 		setRetainInstance(true);
-//		
+
 		try {
 			((SlidingMenuFragment.TyperMenuAdaper)((SlidingMenuFragment)getFragmentManager().findFragmentById(R.id.menu_frame)).getList().getAdapter()).setProgressBarChangedListener(this);
 			
@@ -160,12 +158,13 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 				if(mUpdater !=null && !Utils.shouldStart(mSourceId))
 					mUpdater.setExtraProgress(mSkip);
 				mHackerView.setSelection(mHackerView.getText().length());
-				android.util.Log.e("p37td8", "skip " + mSkip + " size " + mFileSize);
-				if(mSkip + chars.length >= mFileSize && Utils.shouldStart(mSourceId)){ 
+				if(mSkip + chars.length >= mFileSize && Utils.shouldStart(mSourceId) && !mEOF ){ 
 					mUpdater.setCancelled(true);
 					mEndDialog = new EndDialog(getActivity() , R.style.Theme_CustomDialog , !mUpdater.isCatched() , TyperFragment.this , mSourceId);
 					mEndDialog.setCancelable(false);
 					mEndDialog.show();
+					mEOF = true;
+				}else if(mSkip >= mFileSize && !mEOF){
 					mEOF = true;
 				}
 			}
@@ -208,7 +207,6 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 		Settings.getInstance().setSourceId(id);
 		mEOF = false;
 		try {
-			android.util.Log.e("p37td8", "id :: " + id);
 			mSourceId = id;
 			InputStream stream = 
 					getActivity().getAssets().open(id);
@@ -242,7 +240,7 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 
 	@Override
 	public void onProgressBarChanged(ProgressBar pb) {
-		if(mUpdater != null)
+		if(mUpdater != null )
 			mUpdater.setProgressBar(pb);
 	}
 
@@ -261,6 +259,12 @@ public class TyperFragment extends Fragment implements ContentTyper,OnProgressBa
 				break;
 			}
 		}
+	}
+	@Override
+	public void setTextSize(int size) {
+		if(mHackerView != null)
+			mHackerView.setTextSize(size);
+		
 	}
 
 }

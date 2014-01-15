@@ -6,7 +6,7 @@
     android:gravity="center_vertical"
     android:background="@drawable/list_item_selector"
     android:textAppearance="?android:attr/textAppearanceLarge"
-    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+    android:checkMark="@drawable/checkbox_selector"
     android:textColor="@color/menu_items_selector" 
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingStart="?android:attr/listPreferredItemPaddingStart"

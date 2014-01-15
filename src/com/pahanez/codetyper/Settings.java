@@ -12,14 +12,18 @@ class Settings {
 	private SharedPreferences sp;
 	private static Settings sInstance;
 	private final String [] mData;
-	private static final Set<String> DEFAULT_COMPLETE = new HashSet<String>(){{
+	private static final int DEFAULT_TEXT_SIZE = 20;
+	private static final Set<String> DEFAULT_COMPLETE = new HashSet<String>(){
+		private static final long serialVersionUID = 1L;
+
+	{
 		add("0");
 	}};
 	
 	private Settings(){
 		
 		sp = CodeTyperApplication.getAppContext().getSharedPreferences("codetyper", Context.MODE_PRIVATE);
-		mData = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.extra_source_names);
+		mData = CodeTyperApplication.getAppContext().getResources().getStringArray(R.array.source_names);
 	}
 	
 	public static Settings getInstance(){
@@ -54,15 +58,21 @@ class Settings {
 		String position = String.valueOf(pos);
 		Set<String> levels_complete = sp.getStringSet(Constants.COMPLETE_LEVELS, DEFAULT_COMPLETE);
 		levels_complete.add(position);
-		android.util.Log.e("p37td8", "+++ " +position);
 		sp.edit().putStringSet(Constants.COMPLETE_LEVELS, levels_complete).commit();
 	}
 	
 	public boolean isAvailable(int pos){
 		String position = String.valueOf(pos);
 		Set<String> levels_complete = sp.getStringSet(Constants.COMPLETE_LEVELS, DEFAULT_COMPLETE);
-		android.util.Log.e("p37td8", " ++ " + levels_complete.contains(position));
 		return levels_complete.contains(position);
+	}
+	
+	public int getTextSize(){
+		return sp.getInt(Constants.TEXT_SIZE, DEFAULT_TEXT_SIZE);
+	}
+	
+	public void setTextSize(int textSize){
+		sp.edit().putInt(Constants.TEXT_SIZE, textSize).commit();
 	}
 	
 	
