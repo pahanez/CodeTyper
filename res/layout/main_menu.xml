@@ -12,6 +12,7 @@
         android:layout_marginTop="@dimen/menu_title_margin_top"
         android:background="@null"
         android:cursorVisible="true"
+        android:inputType="textNoSuggestions"
         android:gravity="center"
         android:text="@string/menu_title"
         android:textColor="@color/typer_color_green"

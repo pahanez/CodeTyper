@@ -281,7 +281,7 @@ public class SlidingMenuFragment extends Fragment implements OnOpenedListener{
 				convertView.setClickable(false);
 				break;
 			case SOURCE_ITEM:
-				convertView = mInflater.inflate(R.layout.sliding_menu_separator, null);
+				convertView = mInflater.inflate(R.layout.sliding_menu_item, null);
 				((CheckedTextView)convertView.findViewById(android.R.id.text1)).setText(item.mName);
 				convertView.setTag(item.mName);
 				if(item instanceof MenuItem.SourceItem){
